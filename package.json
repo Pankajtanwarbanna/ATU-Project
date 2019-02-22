@@ -1,0 +1,30 @@
+{
+  "name": "atu-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pankajtanwarbanna/ATU-Project.git"
+  },
+  "author": "Pankaj Tanwar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pankajtanwarbanna/ATU-Project/issues"
+  },
+  "homepage": "https://github.com/Pankajtanwarbanna/ATU-Project#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.0",
+    "mongoose": "^5.4.14",
+    "mongoose-title-case": "0.0.4",
+    "mongoose-validator": "^2.1.0",
+    "morgan": "^1.9.1",
+    "nodemailer": "^5.1.1",
+    "nodemailer-sendgrid-transport": "^0.2.0"
+  }
+}
