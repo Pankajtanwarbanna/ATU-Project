@@ -2,6 +2,7 @@
     API written by - Pankaj Tanwar
 */
 var User = require('../models/user');
+var Subject = require('../models/subject');
 var jwt = require('jsonwebtoken');
 var secret = 'atu-project';
 var nodemailer = require('nodemailer');
@@ -921,6 +922,337 @@ module.exports = function (router){
                 }
             }
         });
+    });
+
+    // Get profile of logged in user
+    router.get('/getProfile', function (req, res) {
+
+        //console.log(req.decoded.username);
+
+        User.findOne({ username : req.decoded.username }, function (err, user) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Error in getting profile from database!'
+                });
+            }
+
+            if(!user) {
+                res.json({
+                    success : false,
+                    message : 'User not found.'
+                });
+            } else {
+                res.json({
+                    success : true,
+                    user : user
+                })
+            }
+        });
+    });
+
+    // update user profile
+    router.put('/doUpdate', function (req, res) {
+
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in. Please login.'
+            });
+        } else {
+            User.findOne({ username : req.decoded.username }, function (err, user) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error!'
+                    });
+                }
+
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    });
+                } else {
+                    //console.log(req.body);
+                    //console.log(user);
+
+                    if(req.body.college) {
+                        user.college = req.body.college;
+                    }
+
+                    if(req.body.course) {
+                        user.course = req.body.course;
+                    }
+
+                    if(req.body.rollnumber) {
+                        user.rollnumber = req.body.rollnumber;
+                    }
+
+                    if(req.body.city) {
+                        user.city = req.body.city;
+                    }
+
+                    if(req.body.country) {
+                        user.country = req.body.country;
+                    }
+
+                    if(req.body.postel) {
+                        user.postel = req.body.postel;
+                    }
+
+                    if(req.body.about) {
+                        user.about = req.body.about;
+                    }
+
+                    user.save(function (err) {
+                        if(err) {
+                            console.log(err);
+                            res.json({
+                                success : false,
+                                message : 'Error while updating your profile.'
+                            });
+                        } else {
+                            res.json({
+                                success : true,
+                                message : 'Profile Update Successfully.'
+                            })
+
+                        }
+                    });
+                }
+            })
+        }
+
+    });
+
+    // Add a subject
+    router.post('/addSubject', function (req, res) {
+        //console.log(req.body);
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            User.findOne({ username : req.decoded.username },function (err, user) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    });
+                } else {
+                    if(user.permission === 'professor') {
+
+                        var subject = new Subject();
+
+                        subject.name = req.body.name;
+                        subject.professorname = user.name;
+                        subject.professorusername = req.decoded.username;
+
+
+                        Subject.countDocuments(function (err, count) {
+                            if(err) {
+                                res.json({
+                                    success : false,
+                                    message : 'Database Error. Please try again later.'
+                                })
+                            } else {
+                                //console.log(count);
+
+                                subject.code = "ATU" + (101 + count);
+
+                                subject.save(function (err) {
+                                    if(err) {
+                                        res.json({
+                                            success : false,
+                                            message : 'Database error. Please try again later.'
+                                        });
+                                    } else {
+                                        res.json({
+                                            success : true,
+                                            message : 'Subject successfully added. Visit Subjects Section for Subject Code.',
+                                            code : subject.code
+                                        });
+                                    }
+                                })
+                            }
+                        });
+                    } else {
+                        res.json({
+                            success : false,
+                            message : 'You are not authorized.'
+                        });
+                    }
+                }
+            })
+        }
+    });
+
+    // get all subjects from database
+    router.get('/getSubjects', function (req, res) {
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            User.findOne({ username : req.decoded.username },function (err, user) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    });
+                } else {
+                    if(user.permission === 'professor') {
+
+                        Subject.find({ professorusername : req.decoded.username }, function (err, subjects) {
+                            if(err) {
+                                res.json({
+                                    success : false,
+                                    message : 'Database Error.'
+                                });
+                            }
+
+                            if(!subjects) {
+                                res.json({
+                                    success : false,
+                                    message : 'Subjects not found. Please try again later.'
+                                })
+                            } else {
+                                res.json({
+                                    success : true,
+                                    message : 'Successfully subjects got from database.',
+                                    subjects : subjects
+                                });
+                            }
+                        })
+
+                    }
+                }
+            })
+        }
+    });
+
+    // Join a subject - Student
+    router.post('/joinSubject', function (req, res) {
+       // console.log(req.body);
+
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            User.findOne({ username : req.decoded.username },function (err, user) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    });
+                } else {
+                    if(user.permission === 'student') {
+                        //console.log(req.body.code.toUpperCase());
+                        Subject.findOne({ code : req.body.code.toUpperCase() }, function (err, sub) {
+                            if(err) {
+                                res.json({
+                                    success : false,
+                                    message : 'Database error.'
+                                });
+                            }
+
+                            if(!sub) {
+                                res.json({
+                                    success : false,
+                                    message : 'Invalid Subject Code. Please enter correct Subject Code.'
+                                });
+                            } else {
+
+                                //console.log(user);
+
+                                var subject = {};
+
+                                subject.code = sub.code;
+                                subject.professorname = sub.professorname;
+                                subject.points = 0;
+                                subject.name = sub.name;
+
+                                //console.log(subjectObj);
+                                user.subjects.push({subject : subject });
+
+                                user.save(function (err) {
+                                    if(err) {
+                                        res.json({
+                                            success : true,
+                                            message : 'Database error.'
+                                        });
+                                    } else {
+                                        res.json({
+                                            success : true,
+                                            message : 'Successfully joined subject. Visit Subjects section.'
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            })
+        }
+    });
+
+    // get all subjects joined by student
+    router.get('/getJoinedSubjects', function (req, res) {
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            User.findOne({ username : req.decoded.username },function (err, user) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    });
+                } else {
+                    if(user.permission === 'student') {
+                        res.json({
+                            success : true,
+                            subjects : user.subjects
+                        })
+                    }
+                }
+            })
+        }
     });
 
     return router;

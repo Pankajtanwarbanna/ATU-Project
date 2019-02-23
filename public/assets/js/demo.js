@@ -242,12 +242,12 @@ demo = {
         marker.setMap(map);
     },
 
-	showNotification: function(from, align){
-    	color = Math.floor((Math.random() * 4) + 1);
+	showSuccessNotification: function(from, align){
+    	color = Math.floor((0.4544301516656526 * 4) + 1);
 
     	$.notify({
-        	icon: "pe-7s-gift",
-        	message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
+        	icon: "pe-7s-bell",
+        	message: "Profile Successfully Updated ."
 
         },{
             type: type[color],
@@ -257,7 +257,58 @@ demo = {
                 align: align
             }
         });
-	}
+	},
+
+    showErrorNotification: function(from, align){
+        color = Math.floor((0.7820680091203112 * 4) + 1);
+
+        $.notify({
+            icon: "pe-7s-bell",
+            message: "Error while Updating profile. Please try again later."
+
+        },{
+            type: type[color],
+            timer: 4000,
+            placement: {
+                from: from,
+                align: align
+            }
+        });
+    },
+
+    showSuccessMessage : function(from, align,msg){
+        color = Math.floor((0.4544301516656526 * 4) + 1);
+
+        $.notify({
+            icon: "pe-7s-bell",
+            message: msg
+
+        },{
+            type: type[color],
+            timer: 4000,
+            placement: {
+                from: from,
+                align: align
+            }
+        });
+    },
+
+    showErrorMessage: function(from, align, msg){
+        color = Math.floor((0.7820680091203112 * 4) + 1);
+
+        $.notify({
+            icon: "pe-7s-bell",
+            message: msg
+
+        },{
+            type: type[color],
+            timer: 4000,
+            placement: {
+                from: from,
+                align: align
+            }
+        });
+    }
 
 
 }

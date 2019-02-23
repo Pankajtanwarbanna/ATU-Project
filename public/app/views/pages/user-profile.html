@@ -1,4 +1,5 @@
 <div class="main-panel">
+    <!--
     <nav class="navbar navbar-default navbar-fixed">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -8,9 +9,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">ATU Project Registration</a>
+                <a class="navbar-brand" href="#">User</a>
             </div>
-            <!--
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-left">
                     <li>
@@ -77,9 +77,9 @@
                     <li class="separator hidden-lg hidden-md"></li>
                 </ul>
             </div>
-            -->
         </div>
     </nav>
+    -->
 
 
     <div class="content">
@@ -87,24 +87,97 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="card">
-
+                        <div class="header">
+                            <h4 class="title">Edit Profile</h4>
+                        </div>
                         <div class="content">
-                            <form ng-submit="register.regUser(regData);">
-
+                            <form ng-submit="profile.doUpdate(profileData);">
+                                <!--
                                 <div class="row">
-                                    <div class="col-md-12">
+
+                                    <div class="col-md-5">
                                         <div class="form-group">
-                                            <label>Name</label>
-                                            <input type="text" class="form-control" placeholder="Enter Name" ng-model="register.regData.name" required>
+                                            <label>Company (disabled)</label>
+                                            <input type="text" class="form-control" disabled placeholder="Company" ng-value="Creative Code Inc.">
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Username</label>
-                                            <input type="text" class="form-control" placeholder="Enter Username" ng-model="register.regData.username" required>
+                                            <input type="text" class="form-control" placeholder="Username" ng-value="michael23">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Email address</label>
+                                            <input type="email" class="form-control" placeholder="Email">
+                                        </div>
+                                    </div>
+                                </div>
+                                -->
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" placeholder="Name" ng-value="profile.userProfile.name" ng-model="profile.profileData.name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" class="form-control" placeholder="username" ng-value="profile.userProfile.username" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>E-Mail</label>
+                                            <input type="email" class="form-control" placeholder="Email" ng-value="profile.userProfile.email" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>College</label>
+                                            <input type="text" class="form-control" placeholder="College" ng-value="profile.userProfile.college" ng-model="profile.profileData.college">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Course</label>
+                                            <input type="text" class="form-control" placeholder="Course" ng-value="profile.userProfile.course" ng-model="profile.profileData.course">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Roll Number</label>
+                                            <input type="number" class="form-control" placeholder="Roll Number" ng-value="profile.userProfile.rollnumber" ng-model="profile.profileData.rollnumber">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>City</label>
+                                            <input type="text" class="form-control" placeholder="City" ng-value="profile.userProfile.city" ng-model="profile.profileData.city">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Country</label>
+                                            <input type="text" class="form-control" placeholder="Country" ng-value="profile.userProfile.country" ng-model="profile.profileData.country">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Postal Code</label>
+                                            <input type="number" class="form-control" placeholder="ZIP Code" ng-value="profile.userProfile.postel" ng-model="profile.profileData.postel">
                                         </div>
                                     </div>
                                 </div>
@@ -112,45 +185,13 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="email" class="form-control" placeholder="Enter Email" ng-model="register.regData.email" required>
+                                            <label>About Me</label>
+                                            <textarea rows="5" class="form-control" placeholder="Here can be your description" ng-value="profile.userProfile.about" ng-model="profile.profileData.about"></textarea>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Password</label>
-                                            <input type="password" class="form-control" placeholder="Enter Password" ng-model="register.regData.password" required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <a href="/login">Already Registered?</a>
-                                <button type="submit" class="btn btn-info btn-fill pull-right">Register Now</button>
-
-                                <div style="height: 40px;"></div>
-
-
-                                <div class="jumbotron text-center " ng-show="register.loading">
-                                    <span class="glyphicon glyphicon-repeat spinner"></span>
-                                    <p> Loading..... </p>
-                                </div>
-
-
-                                <div class="row show-hide-message">
-                                    <div class="alert alert-success" ng-show="register.successMsg">
-                                        <strong> Success! </strong> {{ register.successMsg }}
-                                    </div>
-                                </div>
-
-
-                                <div class="row show-hide-message">
-                                    <div class="alert alert-danger" ng-show="register.errorMsg">
-                                        <span><b> Oops! </b>{{ register.errorMsg }}</span>
-                                    </div>
-                                </div>
+                                <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
                                 <div class="clearfix"></div>
                             </form>
                         </div>
@@ -166,62 +207,32 @@
                                  <a href="#">
                                 <img class="avatar border-gray" src="assets/img/faces/pankaj-tanwar.jpeg" alt="..."/>
 
-                                  <h4 class="title">Pankaj Tanwar<br />
-                                     <small> Developer</small>
+                                  <h4 class="title">{{ profile.userProfile.name }}<br />
+                                     <small>{{ profile.userProfile.permission }}</small>
                                   </h4>
                                 </a>
                             </div>
-                            <p class="description text-center">Freelancer NodeJs Developer<br>
-                                Pre-Final Year Student<br>Looking for Summer Internship
+                            <p class="description text-center"> {{ profile.userProfile.postal }}
                             </p>
                         </div>
                         <hr>
                         <div class="text-center">
-                            <a href="https://www.facebook.com/pankajtanwar.bannaji" class="btn btn-simple" target="_blank"><i class="fa fa-facebook-square"></i></a>
-                            <a href="https://www.instagram.com/the2ndfloorguy/" class="btn btn-simple" target="_blank"><i class="fa fa-instagram"></i></a>
-                            <a href="https://www.linkedin.com/in/pankajtanwarbanna/" class="btn btn-simple" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+                            <a href="mailto:{{ profile.userProfile.email }}" class="btn btn-simple"><i class="fa fa-envelope"></i></a>
                         </div>
                     </div>
                 </div>
-
 
             </div>
         </div>
     </div>
 
 
-    <!--
     <footer class="footer">
         <div class="container-fluid">
-            <nav class="pull-left">
-                <ul>
-                    <li>
-                        <a href="#">
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Company
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Portfolio
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                           Blog
-                        </a>
-                    </li>
-                </ul>
-            </nav>
             <p class="copyright pull-right">
-                &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                Made with <span class="fa fa-heart" style="color: crimson;"></span> By <a href="https://www.linkedin.com/in/pankajtanwarbanna/" style="color: #000;">Pankaj Tanwar</a>
             </p>
         </div>
     </footer>
-    -->
 
 </div>

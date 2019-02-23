@@ -43,4 +43,86 @@ angular.module('userCtrl',['userServices'])
             app.errorMsg = data.data.message;
         }
     });
+})
+
+.controller('profileCtrl', function (user) {
+
+    var app  = this;
+    //console.log('testing ctrl');
+    user.getProfile().then(function (data) {
+        //console.log(data);
+        if(data.data.success) {
+            app.userProfile = data.data.user;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    app.doUpdate = function (profileData) {
+        console.log(app.profileData);
+        user.doUpdate(app.profileData).then(function (data) {
+            //console.log(data);
+            if(data.data.success) {
+                demo.showSuccessNotification('top','center');
+            } else {
+                demo.showErrorNotification('top','center');
+            }
+        });
+    }
+})
+
+.controller('subjectCtrl', function (user) {
+
+    var app = this;
+
+    // Add subject to database - Professor
+    app.addSubject = function (subjectData) {
+        //console.log(app.subjectData);
+        user.addSubject(app.subjectData).then(function (data) {
+            //console.log(data);
+            if(data.data.success) {
+                demo.showSuccessMessage('top','center',data.data.message);
+                app.subjectData = false;
+            } else {
+                demo.showErrorMessage('top','center',data.data.message);
+            }
+        });
+    };
+
+    // Get all subjects - professor
+    user.getSubjects().then(function (data) {
+        //console.log(data);
+        if(data.data.success) {
+            app.subjects = data.data.subjects;
+        } else {
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    });
+
+    // get all subjects - student
+    user.getJoinedSubjects().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            console.log(data.data.subjects);
+            app.subjects = data.data.subjects;
+        }
+    });
+
+    // join subject - Student
+    app.joinSubject = function (subjectData) {
+
+        user.joinSubject(app.subjectData).then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                demo.showSuccessMessage('top','center',data.data.message);
+                app.subjectData = false;
+            } else {
+                demo.showErrorMessage('top','center',data.data.message);
+            }
+        });
+    }
+
+
+
+
 });

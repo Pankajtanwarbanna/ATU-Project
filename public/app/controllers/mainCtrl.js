@@ -33,7 +33,7 @@ angular.module('mainController', ['authServices'])
                 app.email = data.data.email;
                 app.username = data.data.username;
                 user.getPermission().then(function (data) {
-                    if(data.data.permission === 'admin') {
+                    if(data.data.permission === 'professor') {
                         app.authorized = true;
                         app.loadme = true
                     } else {

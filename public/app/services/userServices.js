@@ -71,5 +71,35 @@ angular.module('userServices',[])
         return $http.put('/api/edit/', id);
     };
 
+    // Profile page of user
+    userFactory.getProfile = function () {
+        return $http.get('/api/getProfile');
+    };
+
+    // update user profile
+    userFactory.doUpdate = function (profileData) {
+        return $http.put('/api/doUpdate', profileData);
+    };
+
+    // add subject to database
+    userFactory.addSubject = function (subjectData) {
+        return $http.post('/api/addSubject', subjectData);
+    };
+
+    // get all subjects from database - professor
+    userFactory.getSubjects = function () {
+        return $http.get('/api/getSubjects');
+    };
+
+    // get all joined subjects - student
+    userFactory.getJoinedSubjects = function() {
+        return $http.get('/api/getJoinedSubjects');
+    };
+
+    // join a subject - student
+    userFactory.joinSubject = function (subjectData) {
+        return $http.post('/api/joinSubject', subjectData);
+    };
+
     return userFactory;
 });

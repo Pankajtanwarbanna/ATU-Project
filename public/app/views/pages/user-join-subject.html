@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">ATU Project Login</a>
+                <a class="navbar-brand" href="#">ATU Project Join Subject</a>
             </div>
             <!--
             <div class="collapse navbar-collapse">
@@ -89,51 +89,20 @@
                     <div class="card">
 
                         <div class="content">
-                            <form ng-submit="main.doLogin(logData);">
+                            <form ng-submit="subject.joinSubject(subjectData);">
 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Username</label>
-                                            <input ng-disabled="main.disabled" type="text" class="form-control" placeholder="Enter Username" ng-model="main.logData.username" required>
+                                            <label>Subject Code</label>
+                                            <input type="text" class="form-control" placeholder="Enter Subject Code" ng-model="subject.subjectData.code" required>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Password</label>
-                                            <input ng-disabled="main.disabled" type="password" class="form-control" placeholder="Enter Password" ng-model="main.logData.password" required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <a href="/forgot">Forgot Something?</a>
-                                <button ng-disabled="main.disabled" type="submit" class="btn btn-info btn-fill pull-right">Login</button>
+                                <button type="submit" class="btn btn-info btn-fill pull-right">Join Subject</button>
 
                                 <div style="height: 40px;"></div>
-
-                                <div class="jumbotron text-center" ng-show="main.loading">
-                                    <span class="glyphicon glyphicon-repeat spinner"></span>
-                                    <p> Loading..... </p>
-                                </div>
-
-                                <div class="row show-hide-message">
-                                    <div class="alert alert-success" ng-show="main.successMsg">
-                                        <strong> Success! </strong> {{ main.successMsg  }}
-                                    </div>
-                                </div>
-
-                                <div class="row show-hide-message">
-                                    <div class="alert alert-danger" ng-show="main.errorMsg">
-                                        <strong> Oops! </strong> {{ main.errorMsg  }}
-                                        <div class="text-center" ng-show="main.expired">
-                                            <br>
-                                            <a href="/resend" class="btn btn-success btn-fill">Resend Link</a>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="clearfix"></div>
                             </form>

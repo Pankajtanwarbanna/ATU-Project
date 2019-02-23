@@ -12,8 +12,10 @@ var app = angular.module('userRoutes', ['ngRoute'])
             })
 
             .when('/profile', {
-                templateUrl : '/app/views/pages/user.html',
-                authenticated : true
+                templateUrl : '/app/views/pages/user-profile.html',
+                authenticated : true,
+                controller : 'profileCtrl',
+                controllerAs : 'profile'
             })
 
             .when('/login', {
@@ -64,6 +66,32 @@ var app = angular.module('userRoutes', ['ngRoute'])
             .when('/transactions', {
                 templateUrl : '/app/views/pages/user-transactions.html',
                 authenticated : true
+            })
+
+            .when('/subjects', {
+                templateUrl : '/app/views/pages/user-subjects.html',
+                authenticated : true,
+                controller : 'subjectCtrl',
+                controllerAs : 'subject'
+            })
+
+            .when('/students', {
+                templateUrl : '/app/views/pages/user-students.html',
+                authenticated : true
+            })
+
+            .when('/addsubject', {
+                templateUrl : '/app/views/pages/user-add-subject.html',
+                authenticated : true,
+                controller : 'subjectCtrl',
+                controllerAs : 'subject'
+            })
+
+            .when('/joinsubject', {
+                templateUrl : '/app/views/pages/user-join-subject.html',
+                authenticated : true,
+                controller : 'subjectCtrl',
+                controllerAs : 'subject'
             })
 
             /*

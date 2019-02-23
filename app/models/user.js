@@ -74,7 +74,57 @@ var userSchema = new mongoose.Schema({
         type : String,
         required : true,
         default: 'student'
-    }
+    },
+    rollnumber : {
+        type : Number
+    },
+    college : {
+        type : String
+    },
+    course : {
+        type : String
+    },
+    city : {
+        type : String
+    },
+    country : {
+        type : String
+    },
+    postel : {
+        type : Number
+    },
+    about : {
+        type : String
+    },
+    subjects : [{
+        subject : {
+            code : {
+                type : String
+            },
+            points : {
+                type : Number
+            },
+            professorname: {
+                type : String
+            },
+            name : {
+                type : String
+            }
+        }
+    }],
+    transaction : [{
+        info : {
+            reason : {
+                type : String
+            },
+            date : {
+                type : Date
+            },
+            action : {
+                type : String
+            }
+        }
+    }]
 });
 
 userSchema.pre('save', function (next) {
@@ -97,7 +147,7 @@ userSchema.pre('save', function (next) {
 
 // Mongoose title case plugin
 userSchema.plugin(titlize, {
-    paths: [ 'name' , 'location'], // Array of paths
+    paths: [ 'name' , 'college','course','city','country'], // Array of paths
 });
 
 // Password compare method
