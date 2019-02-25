@@ -13,7 +13,7 @@ module.exports = function (router){
     // Nodemailer-sandgrid stuff
     var options = {
         auth: {
-            api_key: 'YOUR_API_KEY'
+            api_key: "YOUR_KEY"
         }
     };
 
@@ -91,26 +91,28 @@ module.exports = function (router){
                 } else {
 
                     var email = {
-                        from: 'Polymath Registration, support@polymath.com',
+                        from: 'ATU Project Registration, support@atuproject.com',
                         to: user.email,
-                        subject: 'Activation Link - Polymath Registration',
-                        text: 'Hello '+ user.name + 'Thank you for registering with us.Please find the below activation link Activation link Thank you Pankaj Tanwar CEO, Polymath',
-                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>Thank you for registering with us.Please find the below activation link<br><br><a href="http://localhost:8080/activate/'+ user.temporarytoken+'">Activation link</a><br><br>Thank you<br>Pankaj Tanwar<br>CEO, Polymath'
+                        subject: 'Activation Link - ATU Project Registration',
+                        text: 'Hello '+ user.name + 'Thank you for registering with us.Please find the below activation link Activation link Thank you Pankaj Tanwar',
+                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>Thank you for registering with us.Please find the below activation link<br><br><a href="https://atu-project.herokuapp.com/activate/'+ user.temporarytoken+'">Activation link</a><br><br>Thank you<br>Pankaj Tanwar'
                     };
 
                     client.sendMail(email, function(err, info){
                         if (err ){
                             console.log(err);
+                            res.json({
+                                success : false,
+                                message : 'Email sending failed.'
+                            })
                         }
                         else {
                             console.log('Message sent: ' + info.response);
+                            res.json({
+                                success : true,
+                                message : 'Account registered! Please check your E-mail inbox for the activation link.'
+                            });
                         }
-                    });
-
-
-                    res.json({
-                        success : true,
-                        message : 'Account registered! Please check your E-mail inbox for the activation link.'
                     });
                 }
             });
@@ -208,26 +210,29 @@ module.exports = function (router){
                             } else {
 
                                 var email = {
-                                    from: 'Polymath Registration, support@polymath.com',
+                                    from: 'ATU Project Registration, support@atuproject.com',
                                     to: user.email,
                                     subject: 'Activation activated',
-                                    text: 'Hello ' + user.name + 'Your account has been activated.Thank you Pankaj Tanwar CEO, Polymath',
-                                    html: 'Hello <strong>' + user.name + '</strong>,<br><br> Your account has been activated.<br><br>Thank you<br>Pankaj Tanwar<br>CEO, Polymath'
+                                    text: 'Hello ' + user.name + 'Your account has been activated.Thank you Pankaj Tanwar',
+                                    html: 'Hello <strong>' + user.name + '</strong>,<br><br> Your account has been activated.<br><br>Thank you<br>Pankaj Tanwar'
                                 };
 
                                 client.sendMail(email, function (err, info) {
                                     if (err) {
                                         console.log(err);
+                                        res.json({
+                                            success : false,
+                                            message : 'Messaging sending failed.'
+                                        })
                                     }
                                     else {
                                         console.log('Message sent: ' + info.response);
+                                        res.json({
+                                            success: true,
+                                            message: 'Account activated.'
+                                        })
                                     }
                                 });
-
-                                res.json({
-                                    success: true,
-                                    message: 'Account activated.'
-                                })
 
                             }
                         });
@@ -299,27 +304,29 @@ module.exports = function (router){
                 } else {
 
                     var email = {
-                        from: 'Polymath Registration, support@polymath.com',
+                        from: 'ATU Project Registration, support@atuproject.com',
                         to: user.email,
-                        subject: 'Activation Link request - Polymath Registration',
+                        subject: 'Activation Link request - ATU Project Registration',
                         text: 'Hello '+ user.name + 'You requested for the new activation link.Please find the below activation link Activation link Thank you Pankaj Tanwar CEO, Polymath',
-                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>You requested for the new activation link.Please find the below activation link<br><br><a href="http://localhost:8080/activate/'+ user.temporarytoken+'">Activation link</a><br><br>Thank you<br>Pankaj Tanwar<br>CEO, Polymath'
+                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>You requested for the new activation link.Please find the below activation link<br><br><a href="https://atu-project.herokuapp.com/activate/'+ user.temporarytoken+'">Activation link</a><br><br>Thank you<br>Pankaj Tanwar'
                     };
 
                     client.sendMail(email, function(err, info){
                         if (err ){
                             console.log(err);
+                            res.json({
+                                success : false,
+                                message : 'Message sending failed.'
+                            })
                         }
                         else {
                             console.log('Message sent: ' + info.response);
+                            res.json({
+                                success : true,
+                                message : 'Link has been successfully sent to registered email.'
+                            });
                         }
                     });
-
-                    res.json({
-                        success : true,
-                        message : 'Link has been successfully sent to registered email.'
-                    });
-
                 }
             })
         });
@@ -347,25 +354,28 @@ module.exports = function (router){
                 } else if(user) {
 
                     var email = {
-                        from: 'Polymath, support@polymath.com',
+                        from: 'ATU Project, support@atuproject.com',
                         to: user.email,
                         subject: 'Forgot Username Request',
-                        text: 'Hello '+ user.name + 'You requested for your username.You username is ' + user.username + 'Thank you Pankaj Tanwar CEO, Polymath',
-                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>You requested for your username.You username is <strong>'+ user.username + '</strong><br><br>Thank you<br>Pankaj Tanwar<br>CEO, Polymath'
+                        text: 'Hello '+ user.name + 'You requested for your username.You username is ' + user.username + 'Thank you Pankaj Tanwar CEO',
+                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>You requested for your username.You username is <strong>'+ user.username + '</strong><br><br>Thank you<br>Pankaj Tanwar<br>'
                     };
 
                     client.sendMail(email, function(err, info){
                         if (err ){
                             console.log(err);
+                            res.json({
+                                success : false,
+                                message : 'Message sending failed.'
+                            })
                         }
                         else {
                             console.log('Message sent: ' + info.response);
+                            res.json({
+                                success : true,
+                                message : 'Username has been successfully sent to your email.'
+                            });
                         }
-                    });
-
-                    res.json({
-                        success : true,
-                        message : 'Username has been successfully sent to your email.'
                     });
                 } else {
                     res.send(user);
@@ -414,25 +424,28 @@ module.exports = function (router){
                         } else {
 
                             var email = {
-                                from: 'Polymath Registration, support@polymath.com',
+                                from: 'ATU Project Registration, support@atuproject.com',
                                 to: user.email,
                                 subject: 'Forgot Password Request',
                                 text: 'Hello '+ user.name + 'You request for the forgot password.Please find the below link Reset password Thank you Pankaj Tanwar CEO, Polymath',
-                                html: 'Hello <strong>'+ user.name + '</strong>,<br><br>You requested for the forgot password. Please find the below link<br><br><a href="http://localhost:8080/forgotPassword/'+ user.temporarytoken+'">Reset password</a><br><br>Thank you<br>Pankaj Tanwar<br>CEO, Polymath'
+                                html: 'Hello <strong>'+ user.name + '</strong>,<br><br>You requested for the forgot password. Please find the below link<br><br><a href="https://atu-project.herokuapp.com/forgotPassword/'+ user.temporarytoken+'">Reset password</a><br><br>Thank you<br>Pankaj Tanwar'
                             };
 
                             client.sendMail(email, function(err, info){
                                 if (err ){
                                     console.log(err);
+                                    res.json({
+                                        success : false,
+                                        message : 'Message sending failed.'
+                                    })
                                 }
                                 else {
                                     console.log('Message sent: ' + info.response);
+                                    res.json({
+                                        success : true,
+                                        message : 'Link to reset your password has been sent to your registered email.'
+                                    });
                                 }
-                            });
-
-                            res.json({
-                                success : true,
-                                message : 'Link to reset your password has been sent to your registered email.'
                             });
 
                         }
@@ -509,27 +522,29 @@ module.exports = function (router){
                         } else {
 
                             var email = {
-                                from: 'Polymath, support@polymath.com',
+                                from: 'ATU Project , support@atuproject.com',
                                 to: user.email,
                                 subject: 'Password reset',
-                                text: 'Hello '+ user.name + 'You request for the reset password.Your password has been reset. Thank you Pankaj Tanwar CEO, Polymath',
-                                html: 'Hello <strong>'+ user.name + '</strong>,<br><br>You requested for the reset password. Your password has been reset.<br><br>Thank you<br>Pankaj Tanwar<br>CEO, Polymath'
+                                text: 'Hello '+ user.name + 'You request for the reset password.Your password has been reset. Thank you Pankaj Tanwar',
+                                html: 'Hello <strong>'+ user.name + '</strong>,<br><br>You requested for the reset password. Your password has been reset.<br><br>Thank you<br>Pankaj Tanwar'
                             };
 
                             client.sendMail(email, function(err, info){
                                 if (err ){
                                     console.log(err);
+                                    res.json({
+                                        success : false,
+                                        message : 'Message sending failed.'
+                                    })
                                 }
                                 else {
                                     console.log('Message sent: ' + info.response);
+                                    res.json({
+                                        success : true,
+                                        message : 'Password has been changed successfully.'
+                                    })
                                 }
                             });
-
-                            res.json({
-                                success : true,
-                                message : 'Password has been changed successfully.'
-                            })
-
                         }
                     })
                 }
@@ -557,11 +572,6 @@ module.exports = function (router){
                 }
             });
 
-        } else {
-            res.json({
-                success : false,
-                message : 'No token provided.'
-            });
         }
     });
 
@@ -1664,6 +1674,47 @@ module.exports = function (router){
                     res.json({
                         success : true,
                         transactions : user.transaction
+                    });
+                }
+            })
+        }
+    });
+
+    // get total points
+    router.get('/getTotalPoints', function (req, res) {
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            User.findOne({ username : req.decoded.username }, function (err, user) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    });
+                } else {
+                    //console.log(user.subjects);
+
+                    var totalpoints = 0;
+
+                    for(var i=0;i<user.subjects.length;i++) {
+                        //console.log(user.subjects[i].subject.points);
+                        totalpoints = totalpoints + user.subjects[i].subject.points;
+                        //console.log(totalpoints);
+                    }
+
+                    res.json({
+                        success : true,
+                        totalpoints : totalpoints
                     });
                 }
             })

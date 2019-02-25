@@ -18,7 +18,7 @@ angular.module('emailController', ['userServices'])
             app.successMsg = data.data.message + '....Redirecting to login page';
             
             $timeout(function () {
-                $location.path('/register');
+                $location.path('/login');
             }, 2000);
         } else {
             app.errorMsg = data.data.message;

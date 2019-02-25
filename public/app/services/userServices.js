@@ -126,5 +126,10 @@ angular.module('userServices',[])
         return $http.get('/api/getTransactions');
     };
 
+    // get total points
+    userFactory.getTotalPoints = function () {
+        return $http.get('/api/getTotalPoints');
+    };
+
     return userFactory;
 });

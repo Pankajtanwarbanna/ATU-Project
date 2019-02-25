@@ -28,8 +28,8 @@
 
 
     <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -87,6 +87,12 @@
                     <a href="/students" ng-show="main.isLoggedIn && main.authorized">
                         <i class="pe-7s-users"></i>
                         <p>Students</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/e-shop" ng-show="main.isLoggedIn && !main.authorized">
+                        <i class="pe-7s-shopbag"></i>
+                        <p>E-Shop</p>
                     </a>
                 </li>
                 <li>
@@ -203,6 +209,14 @@
                             </div>
                             <div class="content all-icons">
                                 <div class="row">
+                                    <div class="font-icon-list col-lg-12" ng-show="main.isLoggedIn && !main.authorized">
+                                        <div class="font-icon-detail">
+                                            <a href="#" style="color: black;">
+                                                <i class="pe-7s-medal"></i>
+                                                <input type="text" style="font-size: 20px;" ng-value= "main.totalpoints"> Points
+                                            </a>
+                                        </div>
+                                    </div>
                                     <!-- User is not logged in -->
                                     <div class="font-icon-list col-lg-3" ng-show="!main.isLoggedIn">
                                         <div class="font-icon-detail">
@@ -267,7 +281,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <!--<div class="col-md-12">
                         <div class="card card-user">
                             <div class="image">
                                 <img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..."/>
@@ -293,7 +307,7 @@
                                 <a href="https://www.linkedin.com/in/pankajtanwarbanna/" class="btn btn-simple" target="_blank"><i class="fa fa-linkedin-square"></i></a>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -301,7 +315,7 @@
 
 
 
-        <footer class="footer">
+        <!--<footer class="footer">
             <nav class="navbar-fixed-bottom">
                 <div class="container-fluid">
                     <p class="copyright pull-right">
@@ -309,7 +323,7 @@
                     </p>
                 </div>
             </nav>
-        </footer>
+        </footer>-->
     </div>
 
     <div class="ng-view"></div>

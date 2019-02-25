@@ -1,7 +1,7 @@
 var express  = require('express');
 var app = express();
 var morgan = require('morgan');             // middleware to log http requests
-var port = 8080 || process.env.PORT;
+var port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var router = express.Router();
@@ -17,7 +17,7 @@ app.use(express.static(__dirname + '/public'));
 app.use('/api', apiRoutes);
 
 // connecting to mongo database
-mongoose.connect('mongodb://localhost:27017/atu-project', { useNewUrlParser: true }, function (err) {
+mongoose.connect('mongodb://pankaj:pankaj1652@ds017736.mlab.com:17736/atuproject', { useNewUrlParser: true }, function (err) {
     if(err) {
         console.log(err);
     } else {

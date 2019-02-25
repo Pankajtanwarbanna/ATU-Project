@@ -99,4 +99,13 @@ angular.module('mainController', ['authServices'])
         }, 2000);
     };
 
+    user.getTotalPoints().then(function (data) {
+        //console.log(data);
+        if(data.data.success) {
+            app.totalpoints = data.data.totalpoints;
+        } else {
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    });
+
 });

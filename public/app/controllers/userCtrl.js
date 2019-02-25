@@ -101,9 +101,9 @@ angular.module('userCtrl',['userServices'])
 
     // get all subjects - student
     user.getJoinedSubjects().then(function (data) {
-        console.log(data);
+        //console.log(data);
         if(data.data.success) {
-            console.log(data.data.subjects);
+            //console.log(data.data.subjects);
             app.subjects = data.data.subjects;
         }
     });
@@ -235,4 +235,8 @@ angular.module('userCtrl',['userServices'])
             demo.showErrorMessage('top','center',data.data.message);
         }
     });
+})
+
+.controller('eshopCtrl', function () {
+    console.log('This ctrl is for testing ');
 });
