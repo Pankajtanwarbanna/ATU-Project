@@ -65,7 +65,9 @@ var app = angular.module('userRoutes', ['ngRoute'])
 
             .when('/transactions', {
                 templateUrl : '/app/views/pages/user-transactions.html',
-                authenticated : true
+                authenticated : true,
+                controller: 'transactionsCtrl',
+                controllerAs : 'transactions'
             })
 
             .when('/subjects', {
@@ -218,4 +220,10 @@ app.run(['$rootScope','auth','$location', 'user', function ($rootScope,auth,$loc
 */
     })
 }]);
+
+app.filter('reverse', function() {
+    return function(items) {
+        return items.slice().reverse();
+    };
+});
 

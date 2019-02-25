@@ -104,7 +104,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h4 class="title">{{ subject.name }}</h4>
+                            <h4 class="title">{{ studentSubject.subjectname }}</h4>
                             <p class="category">Total Students : {{ studentSubject.total }}</p>
 
                         </div>
@@ -124,13 +124,16 @@
                                     <td>{{ student.email }}</td>
                                     <td>{{ student.points }}</td>
                                     <td>
+                                        <input type="number" ng-model="points">
+                                    </td>
+                                    <td>
                                         <div class="legend">
-                                            <a href="/" style="color: green;"><i class="fa fa-circle text-success"></i> Add Points</a>
+                                            <a href="#" style="color: green;" ng-click="studentSubject.addPoints(points,student.email);"><i class="fa fa-circle text-success"></i> Add Points</a>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="legend">
-                                            <a href="/" style="color: red;"><i class="fa fa-circle text-danger"></i> Deduct Points</a>
+                                            <a href="#" style="color: red;" ng-click="studentSubject.deductPoints(points,student.email);"><i class="fa fa-circle text-danger"></i> Deduct Points</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -144,6 +147,16 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer">
+        <nav class="navbar-fixed-bottom">
+            <div class="container-fluid">
+                <p class="copyright pull-right">
+                    Made with <span class="fa fa-heart" style="color: crimson;"></span> By <a href="https://www.linkedin.com/in/pankajtanwarbanna/" style="color: #000;">Pankaj Tanwar</a>
+                </p>
+            </div>
+        </nav>
+    </footer>
 
     <!--
     <footer class="footer">

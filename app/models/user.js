@@ -114,15 +114,7 @@ var userSchema = new mongoose.Schema({
     }],
     transaction : [{
         info : {
-            reason : {
-                type : String
-            },
-            date : {
-                type : Date
-            },
-            action : {
-                type : String
-            }
+            type : String
         }
     }]
 });

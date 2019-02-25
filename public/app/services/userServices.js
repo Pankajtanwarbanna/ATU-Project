@@ -111,5 +111,20 @@ angular.module('userServices',[])
         return $http.get('/api/getStudents/' + code);
     };
 
+    // add points of a user
+    userFactory.addPoints = function (pointsObj) {
+        return $http.post('/api/addPoints', pointsObj);
+    };
+
+    // deduct points of a user
+    userFactory.deductPoints = function (pointsObj) {
+        return $http.post('/api/deductPoints', pointsObj);
+    };
+
+    // get transactions of a user
+    userFactory.getTransactions = function () {
+        return $http.get('/api/getTransactions');
+    };
+
     return userFactory;
 });

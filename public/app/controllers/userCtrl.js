@@ -154,16 +154,85 @@ angular.module('userCtrl',['userServices'])
         }
     });
 
-    console.log($routeParams.code);
-    user.getStudents($routeParams.code).then(function (data) {
+    function getUpdatedStudents() {
+
+        //console.log($routeParams.code);
+        user.getStudents($routeParams.code).then(function (data) {
+            //console.log(data);
+            if(data.data.success) {
+                app.students = data.data.students;
+                app.subjectname = data.data.name;
+                app.total = data.data.students.length;
+                //console.log(app.students);
+            } else {
+                demo.showErrorMessage('top','center',data.data.message);
+            }
+        });
+
+    }
+
+    getUpdatedStudents();
+
+    app.addPoints = function (points,email) {
+        //console.log(points);
+        //console.log(email);
+
+        var pointsObj = {};
+
+        pointsObj.points = points;
+        pointsObj.email = email;
+        pointsObj.code = $routeParams.code;
+
+        console.log(pointsObj);
+
+        user.addPoints(pointsObj).then(function (data) {
+            //console.log(data);
+            if(data.data.success) {
+                getUpdatedStudents();
+                demo.showSuccessMessage('top','center',data.data.message);
+            } else {
+                demo.showErrorMessage('top','center',data.data.message);
+            }
+        });
+    };
+
+    app.deductPoints = function (points,email) {
+        //console.log(points);
+        //console.log(email);
+
+        var pointsObj = {};
+
+        pointsObj.points = points;
+        pointsObj.email = email;
+        pointsObj.code = $routeParams.code;
+
+        console.log(pointsObj);
+
+        user.deductPoints(pointsObj).then(function (data) {
+            //console.log(data);
+            if(data.data.success) {
+                getUpdatedStudents();
+                demo.showSuccessMessage('top','center',data.data.message);
+            } else {
+                demo.showErrorMessage('top','center',data.data.message);
+            }
+        });
+    }
+
+})
+
+.controller('transactionsCtrl', function (user) {
+
+    //console.log('tseting');
+    var app = this;
+
+    user.getTransactions().then(function (data) {
         //console.log(data);
         if(data.data.success) {
-            app.students = data.data.students;
-            app.total = data.data.students.length;
-            //console.log(app.students);
+            app.transactions = data.data.transactions;
+            //console.log(app.transactions);
         } else {
             demo.showErrorMessage('top','center',data.data.message);
         }
     });
-
 });

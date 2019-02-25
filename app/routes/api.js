@@ -1175,70 +1175,90 @@ module.exports = function (router){
                     });
                 } else {
                     if(user.permission === 'student') {
-                        //console.log(req.body.code.toUpperCase());
-                        Subject.findOne({ code : req.body.code.toUpperCase() }, function (err, sub) {
-                            if(err) {
+
+                        var flag = 0;
+
+                        // Check user already joined this class
+                        //console.log(user.subjects);
+                        for(var i=0;i<user.subjects.length;i++) {
+                            //console.log(user.subjects[i].subject.code);
+                            if(user.subjects[i].subject.code === req.body.code.toUpperCase()) {
+                                flag = 1;
                                 res.json({
                                     success : false,
-                                    message : 'Database error.'
+                                    message : 'Already joined class. Please enter another class code.'
                                 });
                             }
+                        }
 
-                            if(!sub) {
-                                res.json({
-                                    success : false,
-                                    message : 'Invalid Subject Code. Please enter correct Subject Code.'
-                                });
-                            } else {
+                        if(flag !== 1) {
 
-                                //console.log(user);
+                            //console.log(req.body.code.toUpperCase());
+                            Subject.findOne({ code : req.body.code.toUpperCase() }, function (err, sub) {
+                                if(err) {
+                                    res.json({
+                                        success : false,
+                                        message : 'Database error.'
+                                    });
+                                }
 
-                                var subject = {};
+                                if(!sub) {
+                                    res.json({
+                                        success : false,
+                                        message : 'Invalid Subject Code. Please enter correct Subject Code.'
+                                    });
+                                } else {
 
-                                subject.code = sub.code;
-                                subject.professorname = sub.professorname;
-                                subject.points = 0;
-                                subject.name = sub.name;
+                                    //console.log(user);
 
-                                //console.log(subjectObj);
-                                user.subjects.push({subject : subject });
+                                    var subject = {};
 
-                                user.save(function (err) {
-                                    if(err) {
-                                        res.json({
-                                            success : true,
-                                            message : 'Database error.'
-                                        });
-                                    } else {
+                                    subject.code = sub.code;
+                                    subject.professorname = sub.professorname;
+                                    subject.points = 0;
+                                    subject.name = sub.name;
 
-                                        var studentObj = {};
+                                    //console.log(subjectObj);
+                                    user.subjects.push({subject : subject });
 
-                                        studentObj.name = user.name;
-                                        studentObj.email = user.email;
-                                        studentObj.points = 0;
-                                        studentObj.rollnumber = user.rollnumber;
+                                    user.save(function (err) {
+                                        if(err) {
+                                            res.json({
+                                                success : true,
+                                                message : 'Database error.'
+                                            });
+                                        } else {
 
-                                        sub.students.push(studentObj);
+                                            var studentObj = {};
 
-                                        console.log(sub.students);
+                                            studentObj.name = user.name;
+                                            studentObj.email = user.email;
+                                            studentObj.points = 0;
+                                            studentObj.rollnumber = user.rollnumber;
 
-                                        sub.save(function (err) {
-                                            if(err) {
-                                                res.json({
-                                                    success : false,
-                                                    message : 'Database error.1'
-                                                })
-                                            } else {
-                                                res.json({
-                                                    success : true,
-                                                    message : 'Successfully joined subject. Visit Subjects section.'
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        });
+                                            sub.students.push(studentObj);
+
+                                            console.log(sub.students);
+
+                                            sub.save(function (err) {
+                                                if(err) {
+                                                    res.json({
+                                                        success : false,
+                                                        message : 'Database error.'
+                                                    })
+                                                } else {
+                                                    res.json({
+                                                        success : true,
+                                                        message : 'Successfully joined subject. Visit Subjects section.'
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+
+                        }
                     }
                 }
             })
@@ -1360,9 +1380,291 @@ module.exports = function (router){
                 } else {
                     res.json({
                         success : true,
-                        students : subject.students
+                        students : subject.students,
+                        name : subject.name
                     });
                     //console.log(subject.students);
+                }
+            })
+        }
+    });
+
+    // add points in a subject
+    router.post('/addPoints', function (req, res) {
+        console.log(req.body);
+        if(!req.body.points) {
+            res.json({
+                success : false,
+                message : 'Please enter a valid number.'
+            });
+        } else {
+            if(!req.decoded.username) {
+                res.json({
+                    success : false,
+                    message : 'User is not logged in.'
+                });
+            } else {
+                Subject.findOne({ code : req.body.code }, function (err, subject) {
+                    if(err) {
+                        res.json({
+                            success : false,
+                            message : 'Database error.'
+                        });
+                    }
+
+                    if(!subject) {
+                        res.json({
+                            success : false,
+                            message : 'Subject not found. Database error.'
+                        });
+                    } else {
+                        //console.log(subject.students);
+                        for(var i=0;i<subject.students.length;i++) {
+                            //console.log(subject.students[i].email);
+                            if(subject.students[i].email === req.body.email) {
+                                subject.students[i].points = subject.students[i].points + Number(req.body.points);
+
+                                subject.save(function (err) {
+                                    if(err) {
+                                        res.json({
+                                            success : false,
+                                            message : 'Database error.'
+                                        });
+                                    } else {
+
+                                        User.findOne({ email : req.body.email }, function (err, user) {
+                                            if(err) {
+                                                res.json({
+                                                    success : false,
+                                                    message : 'Database error.Please try again later.'
+                                                });
+                                            }
+
+                                            if(!user) {
+                                                res.json({
+                                                    success : false,
+                                                    message : 'User not found.'
+                                                });
+                                            } else {
+                                                //console.log(user.subjects);
+                                                for(var i=0;i<user.subjects.length;i++) {
+                                                    if(user.subjects[i].subject.code === req.body.code) {
+                                                        user.subjects[i].subject.points = user.subjects[i].subject.points + Number(req.body.points);
+
+                                                        user.transaction.push({ info : req.body.points + ' Marks added in Subject ' + subject.name + 'by Prof. '+ subject.professorname });
+
+                                                        user.save(function (err) {
+                                                            if(err) {
+                                                                res.json({
+                                                                    success : false,
+                                                                    message : 'Database error.'
+                                                                });
+                                                            } else {
+
+                                                                User.findOne({ username : subject.professorusername }, function (err, prof) {
+                                                                    if(err) {
+                                                                        res.json({
+                                                                            success : false,
+                                                                            message : 'Database error.'
+                                                                        });
+                                                                    }
+                                                                    if(!prof) {
+                                                                        res.json({
+                                                                            success : false,
+                                                                            message : 'Professor not found.'
+                                                                        });
+                                                                    } else {
+                                                                        prof.transaction.push({ info : req.body.points + ' Marks added in Subject ' + subject.name + ' to student '+ user.name + ' by you.'});
+
+                                                                        prof.save(function (err) {
+                                                                            if(err) {
+                                                                                res.json({
+                                                                                    success : false,
+                                                                                    message : 'Database error.'
+                                                                                });
+                                                                            } else {
+                                                                                res.json({
+                                                                                    success : true,
+                                                                                    message : 'Successfully updated points.'
+                                                                                });
+                                                                            }
+                                                                        })
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                                break;
+                            }
+                        }
+                    }
+                })
+            }
+
+        }
+    });
+
+    // deduct points in a subject
+    router.post('/deductPoints', function (req, res) {
+        //console.log(req.body);
+
+        if(!req.body.points) {
+            res.json({
+                success : false,
+                message : 'Please enter a valid number.'
+            });
+        } else {
+            if(!req.decoded.username) {
+                res.json({
+                    success : false,
+                    message : 'User is not logged in.'
+                });
+            } else {
+                Subject.findOne({ code : req.body.code }, function (err, subject) {
+                    if(err) {
+                        res.json({
+                            success : false,
+                            message : 'Database error.'
+                        });
+                    }
+
+                    if(!subject) {
+                        res.json({
+                            success : false,
+                            message : 'Subject not found. Database error.'
+                        });
+                    } else {
+                        //console.log(subject.students);
+                        for(var i=0;i<subject.students.length;i++) {
+                            //console.log(subject.students[i].email);
+                            if(subject.students[i].email === req.body.email) {
+                                subject.students[i].points = subject.students[i].points - Number(req.body.points);
+
+                                if(subject.students[i].points < 0) {
+                                    subject.students[i].points = 0;
+                                }
+
+                                subject.save(function (err) {
+                                    if(err) {
+                                        res.json({
+                                            success : false,
+                                            message : 'Database error.'
+                                        });
+                                    } else {
+
+                                        User.findOne({ email : req.body.email }, function (err, user) {
+                                            if(err) {
+                                                res.json({
+                                                    success : false,
+                                                    message : 'Database error.Please try again later.'
+                                                });
+                                            }
+
+                                            if(!user) {
+                                                res.json({
+                                                    success : false,
+                                                    message : 'User not found.'
+                                                });
+                                            } else {
+                                                //console.log(user.subjects);
+                                                for(var i=0;i<user.subjects.length;i++) {
+                                                    if(user.subjects[i].subject.code === req.body.code) {
+                                                        user.subjects[i].subject.points = user.subjects[i].subject.points - Number(req.body.points);
+
+                                                        if(user.subjects[i].subject.points < 0) {
+                                                            user.subjects[i].subject.points = 0;
+                                                        }
+
+                                                        user.transaction.push({ info : req.body.points + ' Marks deducted in Subject ' + subject.name + ' by Prof. '+ subject.professorname })
+
+                                                        user.save(function (err) {
+                                                            if(err) {
+                                                                res.json({
+                                                                    success : false,
+                                                                    message : 'Database error.'
+                                                                });
+                                                            } else {
+                                                                User.findOne({ username : subject.professorusername }, function (err, prof) {
+                                                                    if(err) {
+                                                                        res.json({
+                                                                            success : false,
+                                                                            message : 'Database error.'
+                                                                        });
+                                                                    }
+                                                                    if(!prof) {
+                                                                        res.json({
+                                                                            success : false,
+                                                                            message : 'Professor not found.'
+                                                                        });
+                                                                    } else {
+                                                                        prof.transaction.push({ info : req.body.points + ' Marks deducted in Subject ' + subject.name + ' to student '+ user.name + ' by you.'});
+
+                                                                        prof.save(function (err) {
+                                                                            if(err) {
+                                                                                res.json({
+                                                                                    success : false,
+                                                                                    message : 'Database error.'
+                                                                                });
+                                                                            } else {
+                                                                                res.json({
+                                                                                    success : true,
+                                                                                    message : 'Successfully updated points.'
+                                                                                });
+                                                                            }
+                                                                        })
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                                break;
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    });
+
+    // get transactions of a user
+    router.get('/getTransactions', function (req, res) {
+
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            User.findOne({ username : req.decoded.username }, function (err, user) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    });
+                } else {
+                    res.json({
+                        success : true,
+                        transactions : user.transaction
+                    });
                 }
             })
         }

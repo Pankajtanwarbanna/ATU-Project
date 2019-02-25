@@ -93,10 +93,10 @@
                 <div class="content">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="alert alert-info alert-with-icon" data-notify="container">
+                            <div class="alert alert-info alert-with-icon" data-notify="container" ng-repeat="transaction in transactions.transactions | reverse">
                                 <!--<button type="button" aria-hidden="true" class="close">×</button>-->
                                 <span data-notify="icon" class="pe-7s-bell"></span>
-                                <span data-notify="message">This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.</span>
+                                <span data-notify="message"> {{ transaction.info }}</span>
                             </div>
                             <div class="footer">
                                 <hr>
@@ -111,6 +111,16 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer">
+        <nav class="navbar-fixed-bottom">
+            <div class="container-fluid">
+                <p class="copyright pull-right">
+                    Made with <span class="fa fa-heart" style="color: crimson;"></span> By <a href="https://www.linkedin.com/in/pankajtanwarbanna/" style="color: #000;">Pankaj Tanwar</a>
+                </p>
+            </div>
+        </nav>
+    </footer>
 
 
     <!--
