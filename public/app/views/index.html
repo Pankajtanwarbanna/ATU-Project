@@ -3,7 +3,7 @@
 <head>
     <base href="/">
     <meta charset="utf-8" />
-	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
+	<link rel="icon" type="image/png" href="assets/img/logo.png">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="author" content="Pankaj Tanwar">
 
@@ -110,7 +110,7 @@
                 </li>
                 <li>
                     <a href="/register" ng-show="!main.isLoggedIn">
-                        <i class="pe-7s-user"></i>
+                        <i class="pe-7s-id"></i>
                         <p>Register</p>
                     </a>
                 </li>
@@ -124,6 +124,13 @@
                     <a href="/help">
                         <i class="pe-7s-help1"></i>
                         <p>Help</p>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="#" ng-show="main.isLoggedIn" ng-click="main.logout();">
+                        <i class="pe-7s-unlock"></i>
+                        <p>Logout</p>
                     </a>
                 </li>
 
@@ -153,12 +160,6 @@
                     </a>
                 </li>
                 -->
-				<li class="active-pro">
-                    <a href="#" ng-show="main.isLoggedIn" ng-click="main.logout();">
-                        <i class="pe-7s-unlock"></i>
-                        <p>Logout</p>
-                    </a>
-                </li>
             </ul>
     	</div>
     </div>
@@ -177,84 +178,137 @@
                 </div>
 
                 <div class="collapse navbar-collapse">
-                    <!--
-                    <ul class="nav navbar-nav navbar-left">
-                        <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-dashboard"></i>
-								<p class="hidden-lg hidden-md">Dashboard</p>
-                            </a>
-                        </li>
-                        <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-globe"></i>
-                                    <b class="caret hidden-lg hidden-md"></b>
-									<p class="hidden-lg hidden-md">
-										5 Notifications
-										<b class="caret"></b>
-									</p>
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Notification 1</a></li>
-                                <li><a href="#">Notification 2</a></li>
-                                <li><a href="#">Notification 3</a></li>
-                                <li><a href="#">Notification 4</a></li>
-                                <li><a href="#">Another notification</a></li>
-                              </ul>
-                        </li>
-                        <li>
-                           <a href="">
-                                <i class="fa fa-search"></i>
-								<p class="hidden-lg hidden-md">Search</p>
-                            </a>
-                        </li>
-                    </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                           <a href="">
-                               <p>Account</p>
-                            </a>
-                        </li>
-                        <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <p>
-										Dropdown
-										<b class="caret"></b>
-									</p>
-
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                              </ul>
-                        </li>
-                        <li>
+                        <li ng-show="main.isLoggedIn">
                             <a href="#">
-                                <p>Log out</p>
+                                <p>Welcome {{ main.name }}</p>
                             </a>
                         </li>
-						<li class="separator hidden-lg"></li>
+                        <li class="separator hidden-lg hidden-md"></li>
                     </ul>
-                    -->
                 </div>
             </div>
         </nav>
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header text-center">
+                                <h4 class="title" ng-show="main.isLoggedIn">Hey {{ main.name }}! Welcome to dashboard</h4>
+                                <h4 class="title" ng-show="!main.isLoggedIn">Hey there! Welcome to ATU Project</h4>
+                                <p class="category">Select the path where you want to go </p>
+                            </div>
+                            <div class="content all-icons">
+                                <div class="row">
+                                    <!-- User is not logged in -->
+                                    <div class="font-icon-list col-lg-3" ng-show="!main.isLoggedIn">
+                                        <div class="font-icon-detail">
+                                            <a href="/login" style="color: black;">
+                                                <i class="pe-7s-user"></i>
+                                                <input type="text" value="Login">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="font-icon-list col-lg-3" ng-show="!main.isLoggedIn">
+                                        <div class="font-icon-detail">
+                                            <a href="/register" style="color: black;">
+                                                <i class="pe-7s-id"></i>
+                                                <input type="text" value="Register">
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- User is logged in -->
+                                    <div class="font-icon-list col-lg-3" ng-show="main.isLoggedIn">
+                                        <div class="font-icon-detail">
+                                            <a href="/subjects" style="color: black;">
+                                                <i class="pe-7s-notebook"></i>
+                                                <input type="text" value="Subjects">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="font-icon-list col-lg-3" ng-show="main.isLoggedIn">
+                                        <div class="font-icon-detail">
+                                            <a href="/transactions" style="color: black;">
+                                                <i class="pe-7s-note2"></i>
+                                                <input type="text" value="Transactions">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="font-icon-list col-lg-3" ng-show="main.isLoggedIn">
+                                        <div class="font-icon-detail">
+                                            <a href="/profile" style="color: black;">
+                                                <i class="pe-7s-user"></i>
+                                                <input type="text" value="User Profile">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- In both case -->
+                                    <div class="font-icon-list col-lg-3">
+                                        <div class="font-icon-detail">
+                                            <a href="/about" style="color: black;">
+                                                <i class="pe-7s-info"></i>
+                                                <input type="text" value="About Us">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="font-icon-list col-lg-3" ng-show="!main.isLoggedIn">
+                                        <div class="font-icon-detail">
+                                            <a href="/help" style="color: black;">
+                                                <i class="pe-7s-help1"></i>
+                                                <input type="text" value="Help">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card card-user">
+                            <div class="image">
+                                <img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..."/>
+                            </div>
+                            <div class="content">
+                                <div class="author">
+                                    <a href="#">
+                                        <img class="avatar border-gray" src="assets/img/faces/pankaj-tanwar.jpeg" alt="..."/>
+
+                                        <h4 class="title">Pankaj Tanwar<br />
+                                            <small> Developer</small>
+                                        </h4>
+                                    </a>
+                                </div>
+                                <p class="description text-center">Freelancer NodeJs Developer<br>
+                                    Pre-Final Year Student<br>Looking for Summer Internship
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <a href="https://www.facebook.com/pankajtanwar.bannaji" class="btn btn-simple" target="_blank"><i class="fa fa-facebook-square"></i></a>
+                                <a href="https://www.instagram.com/the2ndfloorguy/" class="btn btn-simple" target="_blank"><i class="fa fa-instagram"></i></a>
+                                <a href="https://www.linkedin.com/in/pankajtanwarbanna/" class="btn btn-simple" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
 
         <footer class="footer">
-            <div class="container-fluid">
-                <p class="copyright pull-right">
-                    Made with <span class="fa fa-heart" style="color: crimson;"></span> By <a href="https://www.linkedin.com/in/pankajtanwarbanna/" style="color: #000;">Pankaj Tanwar</a>
-                </p>
-            </div>
+            <nav class="navbar-fixed-bottom">
+                <div class="container-fluid">
+                    <p class="copyright pull-right">
+                        Made with <span class="fa fa-heart" style="color: crimson;"></span> By <a href="https://www.linkedin.com/in/pankajtanwarbanna/" style="color: #000;">Pankaj Tanwar</a>
+                    </p>
+                </div>
+            </nav>
         </footer>
     </div>
 
@@ -268,14 +322,8 @@
     <script src="assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
 	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
-	<!--  Charts Plugin -->
-	<script src="assets/js/chartist.min.js"></script>
-
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
-
-    <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 	<script src="assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>

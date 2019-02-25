@@ -10,6 +10,17 @@
                 </button>
                 <a class="navbar-brand" href="#">Help</a>
             </div>
+            <div class="collapse navbar-collapse">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li ng-show="main.isLoggedIn">
+                        <a href="#">
+                            <p>Welcome {{ main.name }}</p>
+                        </a>
+                    </li>
+                    <li class="separator hidden-lg hidden-md"></li>
+                </ul>
+            </div>
             <!--
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-left">
@@ -87,13 +98,33 @@
             <div class="card">
                 <div class="header">
                     <h4 class="title">Help</h4>
-                    <p class="category">Help page of ATU project</p>
+                    <p class="category">Facing issues? Contact us...</p>
 
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="col-md-12">
 
+                            <div class="typo-line">
+                                <p class="category">Project Developer</p>
+                                <blockquote>
+                                    <p>
+                                        Pankaj Tanwar </p>
+                                    <small>
+                                        NodeJs Web Developer, Jaipur
+                                    </small>
+                                </blockquote>
+                            </div>
+
+                            <div class="typo-line">
+                                <p class="category">Contact Information</p>
+                                <blockquote>
+                                    <a href="mailto:2016ucp1381@mnit.ac.in" class="btn btn-simple" target="_blank"><i class="fa fa-envelope"></i> &nbsp;2016ucp1381@mnit.ac.in</a>
+                                    <a href="https://www.linkedin.com/in/pankajtanwarbanna/" class="btn btn-simple" target="_blank"><i class="fa fa-linkedin"></i> &nbsp;Linkedin</a>
+                                    <a href="https://github.com/Pankajtanwarbanna" class="btn btn-simple" target="_blank"><i class="fa fa-github"></i> &nbsp;GitHub</a>
+
+                                </blockquote>
+                            </div>
                             <div class="footer">
                                 <hr>
                                 <div class="stats">

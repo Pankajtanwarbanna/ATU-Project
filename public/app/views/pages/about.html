@@ -10,6 +10,17 @@
                 </button>
                 <a class="navbar-brand" href="#">About ATU Project</a>
             </div>
+            <div class="collapse navbar-collapse">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li ng-show="main.isLoggedIn">
+                        <a href="#">
+                            <p>Welcome {{ main.name }}</p>
+                        </a>
+                    </li>
+                    <li class="separator hidden-lg hidden-md"></li>
+                </ul>
+            </div>
             <!--
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-left">
