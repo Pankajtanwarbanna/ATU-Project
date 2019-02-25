@@ -101,5 +101,15 @@ angular.module('userServices',[])
         return $http.post('/api/joinSubject', subjectData);
     };
 
+    // get all subjects of a prof.
+    userFactory.getProfSubjects = function () {
+        return $http.get('/api/getProfSubjects');
+    };
+
+    // get students of a subject
+    userFactory.getStudents = function (code) {
+        return $http.get('/api/getStudents/' + code);
+    };
+
     return userFactory;
 });

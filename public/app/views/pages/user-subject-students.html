@@ -93,20 +93,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2 col-md-offset-3" ng-repeat="subject in student.subjects">
+                <div class="col-md-2 col-md-offset-3" ng-repeat="subject in studentSubject.subjects">
                     <a href="/students/{{ subject.code }}" class="btn btn-default btn-block">{{ subject.name }}</a>
                 </div>
             </div>
         </div>
 
-        <!--
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h4 class="title">Data Structure</h4>
-                            <p class="category">Total Students : 12</p>
+                            <h4 class="title">{{ subject.name }}</h4>
+                            <p class="category">Total Students : {{ studentSubject.total }}</p>
 
                         </div>
                         <div class="content table-responsive table-full-width">
@@ -119,11 +118,11 @@
                                 <th>Action</th>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Dakota Rice</td>
-                                    <td>pankaj@gmail.com</td>
-                                    <td>738</td>
+                                <tr ng-repeat="student in studentSubject.students">
+                                    <td>{{ student.rollnumber }}</td>
+                                    <td>{{ student.name }}</td>
+                                    <td>{{ student.email }}</td>
+                                    <td>{{ student.points }}</td>
                                     <td>
                                         <div class="legend">
                                             <a href="/" style="color: green;"><i class="fa fa-circle text-success"></i> Add Points</a>
@@ -135,81 +134,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Minerva Hooper</td>
-                                    <td>Niger@gmail.com</td>
-                                    <td>789</td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: green;"><i class="fa fa-circle text-success"></i> Add Points</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: red;"><i class="fa fa-circle text-danger"></i> Deduct Points</a>
-                                        </div>
-                                    </td>                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Sage Rodriguez</td>
-                                    <td>sage@gmail.com</td>
-                                    <td>142</td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: green;"><i class="fa fa-circle text-success"></i> Add Points</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: red;"><i class="fa fa-circle text-danger"></i> Deduct Points</a>
-                                        </div>
-                                    </td>                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Philip Chaney</td>
-                                    <td>philip@gmail.com</td>
-                                    <td>735</td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: green;"><i class="fa fa-circle text-success"></i> Add Points</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: red;"><i class="fa fa-circle text-danger"></i> Deduct Points</a>
-                                        </div>
-                                    </td>                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Doris Greene</td>
-                                    <td>doris@gmail.com</td>
-                                    <td>542</td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: green;"><i class="fa fa-circle text-success"></i> Add Points</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: red;"><i class="fa fa-circle text-danger"></i> Deduct Points</a>
-                                        </div>
-                                    </td>                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>Mason Porter</td>
-                                    <td>mason@gmail.com</td>
-                                    <td>134</td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: green;"><i class="fa fa-circle text-success"></i> Add Points</a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="legend">
-                                            <a href="/" style="color: red;"><i class="fa fa-circle text-danger"></i> Deduct Points</a>
-                                        </div>
-                                    </td>                                </tr>
+
                                 </tbody>
                             </table>
 
@@ -218,7 +143,6 @@
                 </div>
             </div>
         </div>
-        -->
     </div>
 
     <!--

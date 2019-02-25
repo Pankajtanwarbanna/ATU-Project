@@ -1060,6 +1060,7 @@ module.exports = function (router){
 
                         Subject.countDocuments(function (err, count) {
                             if(err) {
+                                //console.log(err);
                                 res.json({
                                     success : false,
                                     message : 'Database Error. Please try again later.'
@@ -1071,6 +1072,7 @@ module.exports = function (router){
 
                                 subject.save(function (err) {
                                     if(err) {
+                                        console.log(err);
                                         res.json({
                                             success : false,
                                             message : 'Database error. Please try again later.'
@@ -1208,9 +1210,30 @@ module.exports = function (router){
                                             message : 'Database error.'
                                         });
                                     } else {
-                                        res.json({
-                                            success : true,
-                                            message : 'Successfully joined subject. Visit Subjects section.'
+
+                                        var studentObj = {};
+
+                                        studentObj.name = user.name;
+                                        studentObj.email = user.email;
+                                        studentObj.points = 0;
+                                        studentObj.rollnumber = user.rollnumber;
+
+                                        sub.students.push(studentObj);
+
+                                        console.log(sub.students);
+
+                                        sub.save(function (err) {
+                                            if(err) {
+                                                res.json({
+                                                    success : false,
+                                                    message : 'Database error.1'
+                                                })
+                                            } else {
+                                                res.json({
+                                                    success : true,
+                                                    message : 'Successfully joined subject. Visit Subjects section.'
+                                                });
+                                            }
                                         });
                                     }
                                 });
@@ -1250,6 +1273,96 @@ module.exports = function (router){
                             subjects : user.subjects
                         })
                     }
+                }
+            })
+        }
+    });
+
+    // get all prof subjects
+    router.get('/getProfSubjects', function (req, res) {
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            User.findOne({ username : req.decoded.username }, function (err, user) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    });
+                } else {
+                    if(user.permission === 'professor') {
+
+                        Subject.find({ professorusername : req.decoded.username }, function (err, subjects) {
+                            if(err) {
+                                res.json({
+                                    success : false,
+                                    message : 'Database error.'
+                                });
+                            }
+
+                            if(!subjects) {
+                                res.json({
+                                    success : true,
+                                    message : 'Subjects not found.'
+                                });
+                            } else {
+                                res.json({
+                                    success : true,
+                                    subjects : subjects
+                                });
+                            }
+                        })
+
+                    } else {
+                        res.json({
+                            success : false,
+                            message : 'You are not authorized.'
+                        })
+                    }
+                }
+            })
+
+        }
+    });
+
+    // get students of a subject
+    router.get('/getStudents/:code', function (req, res) {
+        //console.log(req.params.code);
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            Subject.findOne({ code : req.params.code }, function (err, subject) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!subject) {
+                    res.json({
+                        success : false,
+                        message : 'No subject found.'
+                    });
+                } else {
+                    res.json({
+                        success : true,
+                        students : subject.students
+                    });
+                    //console.log(subject.students);
                 }
             })
         }

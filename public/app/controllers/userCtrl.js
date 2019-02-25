@@ -121,8 +121,49 @@ angular.module('userCtrl',['userServices'])
             }
         });
     }
+})
 
+.controller('studentCtrl', function (user) {
 
+    //console.log('testing');
 
+    var app = this;
+
+    user.getProfSubjects().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.subjects = data.data.subjects;
+            console.log(app.subjects);
+        } else {
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    });
+})
+
+.controller('studentSubjectCtrl', function (user,$routeParams) {
+
+    var app = this;
+
+    user.getProfSubjects().then(function (data) {
+        //console.log(data);
+        if(data.data.success) {
+            app.subjects = data.data.subjects;
+            //console.log(app.subjects);
+        } else {
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    });
+
+    console.log($routeParams.code);
+    user.getStudents($routeParams.code).then(function (data) {
+        //console.log(data);
+        if(data.data.success) {
+            app.students = data.data.students;
+            app.total = data.data.students.length;
+            //console.log(app.students);
+        } else {
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    });
 
 });

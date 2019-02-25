@@ -5,8 +5,7 @@ mongoose.set('useCreateIndex', true);
 var subjectSchema = new mongoose.Schema({
     name : {
         type : String,
-        required : true,
-        unique : true
+        required : true
     },
     professorname : {
         type: String,
@@ -20,7 +19,21 @@ var subjectSchema = new mongoose.Schema({
         type : String,
         unique: true,
         required : true
-    }
+    },
+    students : [{
+        name : {
+            type : String
+        },
+        email : {
+            type : String
+        },
+        points : {
+            type : Number
+        },
+        rollnumber : {
+            type : Number
+        }
+    }]
 });
 
 // Mongoose title case plugin

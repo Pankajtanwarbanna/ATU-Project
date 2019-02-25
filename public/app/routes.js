@@ -77,7 +77,16 @@ var app = angular.module('userRoutes', ['ngRoute'])
 
             .when('/students', {
                 templateUrl : '/app/views/pages/user-students.html',
-                authenticated : true
+                authenticated : true,
+                controller : 'studentCtrl',
+                controllerAs : 'student'
+            })
+
+            .when('/students/:code', {
+                templateUrl : '/app/views/pages/user-subject-students.html',
+                authenticated : true,
+                controller : 'studentSubjectCtrl',
+                controllerAs : 'studentSubject'
             })
 
             .when('/addsubject', {
