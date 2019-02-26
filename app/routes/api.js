@@ -8,6 +8,22 @@ var secret = 'atu-project';
 var nodemailer = require('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
 
+
+// Item Picture Upload stuff
+var multer = require('multer');
+var path = require('path');
+
+var storage = multer.diskStorage({
+    destination : './public/uploads',
+    filename : function(req, file, callback) {
+        callback(null, file.fieldname + '-'+ Date.now() + path.extname(file.originalname));
+    }
+});
+
+var upload = multer({
+    storage : storage
+}).single('myImage');
+
 module.exports = function (router){
 
     // Nodemailer-sandgrid stuff
@@ -1719,6 +1735,36 @@ module.exports = function (router){
                 }
             })
         }
+    });
+
+    // post an item for sell with picture
+    router.post('/upload', function (req, res) {
+
+        upload(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                // A Multer error occurred when uploading.
+                res.json({
+                    success : false,
+                    message : 'Multer occurred when uploading.'
+                })
+            } else if (err) {
+                // An unknown error occurred when uploading.
+                console.log(err);
+                res.json({
+                    success : false,
+                    message : err
+                })
+            } else {
+                console.log(req.file);
+                console.log('File successfully uploaded.');
+                res.json({
+                    success : true,
+                    message : 'Upload successful.'
+                })
+            }
+
+            // Everything went fine.
+        })
     });
 
     return router;

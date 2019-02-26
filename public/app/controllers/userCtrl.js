@@ -237,6 +237,21 @@ angular.module('userCtrl',['userServices'])
     });
 })
 
-.controller('eshopCtrl', function () {
+// posting an item with picture controller
+.controller('eshopsellCtrl', function (user,$http,$scope) {
+
+    var app = this;
+
+    app.postItem = function (itemData,$scope) {
+        console.log(app.itemData);
+        console.log($scope.myFile);
+        /*$http.post('/api/upload').then(function (data) {
+            console.log(data);
+        });*/
+    }
+})
+
+// buying an item controller
+.controller('eshopbuyCtrl', function () {
     console.log('This ctrl is for testing ');
 });

@@ -103,17 +103,71 @@
                             <p class="category">Let us know a brief about your item!
                             </p>
                         </div>
-                        <div class="content all-icons">
-                            <div class="row">
-                                <div class="font-icon-list col-lg-12">
-                                    <div class="font-icon-detail">
-                                        <a href="#" style="color: black;">
-                                            <i class="pe-7s-coffee"></i>
-                                            <input type="text" value="Page Under Construction!">
-                                        </a>
+                        <div class="content">
+                            <form ng-submit="eshopsell.postItem(itemData);" enctype="multipart/form-data">
+                                <!--<div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Item Name</label>
+                                            <input type="text" class="form-control" placeholder="Enter Item Name" ng-model="eshopsell.itemData.name" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Item Category</label>
+                                            <select class="form-control" ng-model="eshopsell.itemData.category" required>
+                                                <option value="car"> Car</option>
+                                                <option value="bus"> Bus</option>
+                                                <option value="bike"> Bike</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Item Description</label>
+                                            <textarea type="text" class="form-control" placeholder="Enter Item Description" ng-model="eshopsell.itemData.about" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Item Price(in points)</label>
+                                            <input type="number" class="form-control" placeholder="Enter Points" ng-model="eshopsell.itemData.points" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Item Seller</label>
+                                            <input type="text" class="form-control" ng-model="main.name" disabled>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+                                <!--<div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Upload Picture</label>
+                                            <input type="file" class="form-control" placeholder="Upload Picture" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-info btn-fill">Upload</button>-->
+
+                                <input file-model="myFile" ng-model="eshopsell.itemData.myImage" type="file">
+                                <button type="submit" class="btn">Submit</button>
+
+                            </form>
                         </div>
                     </div>
                 </div>
