@@ -127,6 +127,18 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'eshopbuy'
             })
 
+            .when('/item/:id' , {
+                templateUrl : '/app/views/pages/user-item.html',
+                authenticated : true,
+                permission : 'student',
+                controller : 'useritemCtrl',
+                controllerAs : 'useritem'
+            })
+
+
+
+
+
             /*
             .when('/register', {
                 templateUrl : '/app/views/users/register.html',

@@ -70,3 +70,16 @@
     height: 100%;
     max-width: 100px;
 }
+.box {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: margin-top ease 0.5s;
+    border-radius: 5px;
+}
+
+.box:hover {
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+    margin-top : -15px;
+}
+.box1 {
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+}

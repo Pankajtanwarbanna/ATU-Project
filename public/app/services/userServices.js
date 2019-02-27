@@ -136,5 +136,15 @@ angular.module('userServices',[])
         return $http.post('/api/postItem',itemData);
     };
 
+    // get items from database
+    userFactory.getItems = function () {
+        return $http.get('/api/getItems');
+    };
+
+    // get personal page of item
+    userFactory.getProduct = function (id) {
+        return $http.get('/api/getProduct/' + id);
+    };
+
     return userFactory;
 });

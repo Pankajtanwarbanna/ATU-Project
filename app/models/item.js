@@ -30,15 +30,15 @@ var itemSchema = new mongoose.Schema({
     buyer : {
         type : String
     },
-    count : {
-        type : Number,
+    image : {
+        type : String,
         required : true
     }
 });
 
 // Mongoose title case plugin
 itemSchema.plugin(titlize, {
-    paths: [ 'name'], // Array of paths
+    paths: [ 'name','description','category'], // Array of paths
 });
 
 module.exports = mongoose.model('Item',itemSchema);

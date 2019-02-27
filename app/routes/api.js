@@ -1745,8 +1745,9 @@ module.exports = function (router){
                         err.code = 'database';
                         return cb(err);
                     } else {
-                        cb(null,  file.fieldname + '-'+ count + path.extname(file.originalname));
+                        cb(null,  file.fieldname + '-'+ count + '.jpg');
                     }
+                    // path.extname(file.originalname)
 
                 });
             }
@@ -1829,7 +1830,7 @@ module.exports = function (router){
                         messag : 'Database error.'
                     });
                 } else {
-                    item.count = count;
+                    item.image = 'myFile-' + count;
 
                     item.save(function (err) {
                         if(err) {
@@ -1848,7 +1849,69 @@ module.exports = function (router){
                 }
             });
         }
+    });
 
+    // get items form database
+    router.get('/getItems', function (req, res) {
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            Item.find({  }, function (err, items) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!items) {
+                    res.json({
+                        success : false,
+                        message : 'No Items found.'
+                    });
+                } else {
+                    res.json({
+                        success : true,
+                        items : items
+                    });
+                }
+            })
+        }
+    });
+
+    // route to get personal item page details
+    router.get('/getProduct/:id', function (req, res) {
+        console.log(req.params.id);
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            Item.findOne({ _id : req.params.id }, function (err, item) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!item) {
+                    res.json({
+                        success : false,
+                        message : 'Item not found.'
+                    });
+                } else {
+                    res.json({
+                        success : true,
+                        item : item
+                    })
+                }
+            })
+        }
     });
 
     return router;

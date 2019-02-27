@@ -243,10 +243,10 @@ angular.module('userCtrl', ['fileModelDirective','uploadFileService','userServic
     $scope.file = {};
 
     $scope.Submit = function (itemData) {
-        console.log(itemData);
+        //console.log(itemData);
         $scope.uploading = true;
         uploadFile.upload($scope.file).then(function (data) {
-            console.log(data);
+            //console.log(data);
             if(data.data.success) {
 
                 // if image posted successfully - post item data
@@ -272,6 +272,32 @@ angular.module('userCtrl', ['fileModelDirective','uploadFileService','userServic
 })
 
 // buying an item controller
-.controller('eshopbuyCtrl', function () {
-    console.log('This ctrl is for testing ');
+.controller('eshopbuyCtrl', function (user) {
+
+    var app = this;
+
+    user.getItems().then(function (data) {
+        //console.log(data);
+        if(data.data.success) {
+            app.items = data.data.items;
+
+        } else {
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    });
+
+})
+
+.controller('useritemCtrl', function (user,$routeParams) {
+
+    var app = this;
+
+    user.getProduct($routeParams.id).then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.item = data.data.item;
+        } else {
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    })
 });

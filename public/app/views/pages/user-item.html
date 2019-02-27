@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">ATU Project E-Shop Buy Items</a>
+                <a class="navbar-brand" href="#">ATU Project </a>
             </div>
             <div class="collapse navbar-collapse">
 
@@ -99,7 +99,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header text-center">
-                            <h4 class="title">Explore Items</h4>
+                            <h4 class="title"> {{ useritem.item.name }}</h4>
                             <p class="category">Explore items of your interest and buy on single click!
                             </p>
                         </div>
@@ -107,41 +107,61 @@
                         <br>
                         <div class="content all-icons">
                             <div class="row">
-                                <div class="font-icon-list col-lg-4" ng-repeat="item in eshopbuy.items">
-                                    <!--<div class="font-icon-detail">
-                                        <a href="#" style="color: black;">
-                                            <i class="pe-7s-coffee"></i>
-                                            <input type="text" value="Page Under Construction!">
-                                        </a>
-                                    </div>-->
-                                    <div class="box card card-user">
-                                        <div class="image" style="height: 230px;">
-                                            <img style="height: 300px;width: 100%;" src="/uploads/{{ item.image }}.jpg" alt=""/>
-                                        </div>
-                                        <div class="content" style="min-height: 130px;">
-                                            <div class="author" style="text-align: left;margin-top: 0px;">
-                                                <a href="/item/{{ item._id }}">
-
-                                                    <h4 class="title">{{ item.name }}<br />
-                                                        <small>{{ item.category }}</small>
-                                                    </h4>
-                                                    <br>
-                                                </a>
-                                            </div>
-                                            <hr>
-                                            <div class="row" style="margin-top: 15px;">
-                                                <div class="col-lg-5">
-                                                    <i style="font-size: medium;" class="pe-7s-medal"> {{ item.points }}</i>
-                                                </div>
-                                                <div class="col-lg-7">
-                                                    <i style="font-size: medium;" class="pe-7s-pen"> {{ item.seller }}</i>
-                                                </div>
-                                            </div>
-
+                                <div class="font-icon-list col-lg-6">
+                                    <div class="card card-user">
+                                        <div class="image box1" style="height: auto;" >
+                                            <img style="height: 300px;width: 100%;" src="/uploads/{{ useritem.item.image }}.jpg" alt=""/>
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="col-md-6">
+                                    <div class="card card-user">
+                                        <div class="content">
+                                            <div class="typo-line">
+                                                <p class="category">Item Name</p>
+                                                <blockquote>
+                                                    <p>
+                                                        {{ useritem.item.name }}
+                                                    </p>
+                                                </blockquote>
+                                            </div>
+                                            <div class="typo-line">
+                                                <p class="category">Item Category</p>
+                                                <blockquote>
+                                                    <p>
+                                                        {{ useritem.item.category }}
+                                                    </p>
+                                                </blockquote>
+                                            </div>
+                                            <div class="typo-line">
+                                                <p class="category">Item Price</p>
+                                                <blockquote>
+                                                    <p>
+                                                        <i style="font-size: medium;" class="pe-7s-medal"></i> &nbsp;{{ useritem.item.points }} Points
+                                                    </p>
+                                                </blockquote>
+                                            </div>
+                                            <div class="typo-line">
+                                                <p class="category">Item Description</p>
+                                                <blockquote>
+                                                    <p>
+                                                        {{ useritem.item.description }}
+                                                    </p>
+                                                    <small>
+                                                        {{ useritem.item.seller}}, Item Seller
+                                                    </small>
+                                                </blockquote>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="text-center" ng-show="!useritem.item.status">
+                                            <i style="margin-top: 4px;margin-bottom: 10px;" class="fa fa-circle text-success"></i> Still On Sale
+                                        </div>
+                                        <div class="text-center" ng-show="useritem.item.status">
+                                            <i style="margin-top: 4px;margin-bottom: 10px;" class="fa fa-circle text-danger"></i> Already sold to {{ useritem.item.buyer  }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
