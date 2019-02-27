@@ -14,7 +14,6 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 // diff. front end and backend routes
 app.use('/api', apiRoutes);
-
 // connecting to mongo database
 mongoose.connect('mongodb://pankaj:pankaj1652@ds017736.mlab.com:17736/atuproject', { useNewUrlParser: true }, function (err) {
     if(err) {

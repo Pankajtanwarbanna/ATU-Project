@@ -1,7 +1,7 @@
 /*
     Controller written by - Pankaj tanwar
 */
-angular.module('userCtrl',['userServices'])
+angular.module('userCtrl', ['fileModelDirective','uploadFileService','userServices'])
 
 .controller('regCtrl', function ($scope, $http, $timeout, $location,user) {
 
@@ -238,17 +238,37 @@ angular.module('userCtrl',['userServices'])
 })
 
 // posting an item with picture controller
-.controller('eshopsellCtrl', function (user,$http,$scope) {
+.controller('eshopsellCtrl', function (uploadFile, $scope,user) {
 
-    var app = this;
+    $scope.file = {};
 
-    app.postItem = function (itemData,$scope) {
-        console.log(app.itemData);
-        console.log($scope.myFile);
-        /*$http.post('/api/upload').then(function (data) {
+    $scope.Submit = function (itemData) {
+        console.log(itemData);
+        $scope.uploading = true;
+        uploadFile.upload($scope.file).then(function (data) {
             console.log(data);
-        });*/
+            if(data.data.success) {
+
+                // if image posted successfully - post item data
+                user.postItem(itemData).then(function (data) {
+                    if(data.data.success) {
+                        $scope.uploading = false;
+                        $scope.itemData = '';
+                        demo.showSuccessMessage('top','center',data.data.message);
+                        $scope.file = {};
+                    } else {
+                        $scope.uploading = false;
+                        demo.showErrorMessage('top','center',data.data.message);
+                    }
+                });
+            } else {
+                $scope.uploading = false;
+                demo.showErrorMessage('top','center',data.data.message);
+                $scope.file = {};
+            }
+        })
     }
+
 })
 
 // buying an item controller

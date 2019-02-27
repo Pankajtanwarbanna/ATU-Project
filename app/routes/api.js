@@ -3,26 +3,14 @@
 */
 var User = require('../models/user');
 var Subject = require('../models/subject');
+var Item = require('../models/item');
 var jwt = require('jsonwebtoken');
 var secret = 'atu-project';
 var nodemailer = require('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
-
-
-// Item Picture Upload stuff
+// Uploading file stuff
 var multer = require('multer');
 var path = require('path');
-
-var storage = multer.diskStorage({
-    destination : './public/uploads',
-    filename : function(req, file, callback) {
-        callback(null, file.fieldname + '-'+ Date.now() + path.extname(file.originalname));
-    }
-});
-
-var upload = multer({
-    storage : storage
-}).single('myImage');
 
 module.exports = function (router){
 
@@ -1737,34 +1725,130 @@ module.exports = function (router){
         }
     });
 
-    // post an item for sell with picture
-    router.post('/upload', function (req, res) {
+    // Multer file upload stuff
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './public/uploads')
+        },
+        filename: function (req, file, cb) {
+
+            if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
+                var err = new Error();
+                err.code = 'fileType';
+
+                return cb(err);
+            } else {
+
+                Item.countDocuments(function (err, count) {
+
+                    if(err) {
+                        err.code = 'database';
+                        return cb(err);
+                    } else {
+                        cb(null,  file.fieldname + '-'+ count + path.extname(file.originalname));
+                    }
+
+                });
+            }
+        }
+    });
+
+    var upload = multer({
+        storage: storage,
+        limits : { fileSize : 10000000 }
+    }).single('myFile');
+
+
+    // route to upload picture
+    router.post('/upload', function (req,res) {
 
         upload(req, res, function (err) {
-            if (err instanceof multer.MulterError) {
+            if (err) {
                 // A Multer error occurred when uploading.
-                res.json({
-                    success : false,
-                    message : 'Multer occurred when uploading.'
-                })
-            } else if (err) {
-                // An unknown error occurred when uploading.
-                console.log(err);
-                res.json({
-                    success : false,
-                    message : err
-                })
-            } else {
-                console.log(req.file);
-                console.log('File successfully uploaded.');
-                res.json({
-                    success : true,
-                    message : 'Upload successful.'
-                })
-            }
+                if(err.code === 'LIMIT_FILE_SIZE') {
+                    res.json({
+                        success : false,
+                        message : 'File size limit exceed. Max file size is 10MB.'
+                    });
+                } else if(err.code === 'fileType') {
+                    res.json({
+                        success : false,
+                        message : 'File format not accepted. Must be .png/.jpeg/.jpg'
+                    });
+                } else {
+                    console.log(err);
+                    res.json({
+                        success : false,
+                        message : 'File was unable to upload.'
+                    });
+                }
+            } else  {
+                // everything is fine
+                if(!req.file) {
+                    res.json({
+                        success : false,
+                        message : 'Please select a file.'
+                    });
+                } else {
+                    res.json({
+                        success : true,
+                        message : 'File Uploaded successfully.'
+                    });
+                }
 
-            // Everything went fine.
-        })
+            }
+        });
+    });
+
+    // post an item for sell
+    router.post('/postItem', function (req, res) {
+
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else if(!req.body) {
+            res.json({
+                success : false,
+                message : 'Please fill all entries.'
+            });
+        } else {
+            var item = new Item();
+
+            item.name = req.body.name;
+            item.category = req.body.category;
+            item.description = req.body.description;
+            item.points = req.body.points;
+            item.seller = req.decoded.username;
+
+            Item.countDocuments(function (err, count) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        messag : 'Database error.'
+                    });
+                } else {
+                    item.count = count;
+
+                    item.save(function (err) {
+                        if(err) {
+                            console.log(err);
+                            res.json({
+                                success : false,
+                                message : 'Database error.'
+                            });
+                        } else {
+                            res.json({
+                                success : true,
+                                message : 'Item posted successfully.'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
     });
 
     return router;
