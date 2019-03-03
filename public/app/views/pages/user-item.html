@@ -117,6 +117,13 @@
                                 <div class="col-md-6">
                                     <div class="card card-user">
                                         <div class="content">
+                                            <div class="text-center" ng-show="!useritem.item.status">
+                                                <i style="margin-top: 4px;margin-bottom: 10px;" class="fa fa-circle text-success"></i> Still On Sale
+                                            </div>
+                                            <div class="text-center" ng-show="useritem.item.status">
+                                                <i style="margin-top: 4px;margin-bottom: 10px;" class="fa fa-circle text-danger"></i> Already sold to {{ useritem.item.buyer  }}
+                                            </div>
+                                            <hr>
                                             <div class="typo-line">
                                                 <p class="category">Item Name</p>
                                                 <blockquote>
@@ -152,13 +159,7 @@
                                                     </small>
                                                 </blockquote>
                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div class="text-center" ng-show="!useritem.item.status">
-                                            <i style="margin-top: 4px;margin-bottom: 10px;" class="fa fa-circle text-success"></i> Still On Sale
-                                        </div>
-                                        <div class="text-center" ng-show="useritem.item.status">
-                                            <i style="margin-top: 4px;margin-bottom: 10px;" class="fa fa-circle text-danger"></i> Already sold to {{ useritem.item.buyer  }}
+                                            <a href="#" class="btn btn-default btn-block" ng-click="useritem.buyNow(useritem.item._id);">Buy Now</a>
                                         </div>
                                     </div>
                                 </div>

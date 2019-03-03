@@ -1801,6 +1801,45 @@ module.exports = function (router){
         });
     });
 
+    // check user has join a class for posting an item
+    router.get('/checkClass', function (req, res) {
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'user is not logged in.'
+            });
+        } else {
+            User.findOne({ username : req.decoded.username }, function (err, user) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error'
+                    });
+                }
+
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    });
+                } else {
+                    if(user.subjects.length === 0) {
+                        res.json({
+                            success : false,
+                            disable : true,
+                            message : 'First join a subject to post item.'
+                        });
+                    } else {
+                        res.json({
+                            success : true,
+                            disable : false
+                        });
+                    }
+                }
+            })
+        }
+    });
+
     // post an item for sell
     router.post('/postItem', function (req, res) {
 
@@ -1911,6 +1950,164 @@ module.exports = function (router){
                     })
                 }
             })
+        }
+    });
+
+    // buy now a product
+    router.post('/buyNow/:id', function (req, res) {
+        console.log(req.params.id);
+
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            console.log('User is logged in');
+            Item.findOne({ _id : req.params.id }, function (err, item) {
+
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!item) {
+                    res.json({
+                        success : false,
+                        message : 'Item not found.'
+                    });
+                } else {
+
+                    if(item.seller === req.decoded.username) {
+                        res.json({
+                            success : false,
+                            message : 'Oops! You can not buy your own product.'
+                        });
+                    } else {
+
+                        // check points are enough
+                        User.findOne({ username : req.decoded.username }, function (err,user) {
+                            if(err) {
+                                res.json({
+                                    success : false,
+                                    message : 'Database error.'
+                                });
+                            }
+
+                            if(!user) {
+                                res.json({
+                                    success : false,
+                                    message : 'User not found.'
+                                });
+                            } else {
+
+                                var points = 0;
+
+                                for(var i=0;i<user.subjects.length;i++) {
+                                    points = points + user.subjects[i].subject.points;
+                                }
+
+                                if(points < item.points) {
+                                    res.json({
+                                        success : false,
+                                        message : 'Oops! You do not have enough points.'
+                                    });
+                                } else {
+
+                                    console.log('Enough points');
+
+                                    var p = item.points;
+
+                                    // Enough Points
+                                    for(var i=0;i<user.subjects.length;i++) {
+                                        if(p > 0) {
+                                            if(p >= user.subjects[i].subject.points) {
+                                                p = p - user.subjects[i].subject.points;
+                                                user.subjects[i].subject.points = 0;
+                                            } else {
+                                                user.subjects[i].subject.points = user.subjects[i].subject.points - p;
+                                                p = 0;
+                                            }
+                                        } else {
+                                            break;
+                                        }
+                                    }
+
+                                    user.save(function (err) {
+                                        if(err) {
+                                            res.json({
+                                                success : false,
+                                                message : 'Database error.'
+                                            });
+                                        } else {
+                                            // now add in another seller's account
+                                            console.log('Now adding in seller account');
+
+                                            User.findOne({ username : item.seller }, function (err, seller) {
+                                                if(err) {
+                                                    res.json({
+                                                        success : false,
+                                                        message : 'Database error.'
+                                                    });
+                                                }
+
+                                                if(!seller) {
+                                                    res.json({
+                                                        success : false,
+                                                        message : 'Seller not found.'
+                                                    });
+                                                } else {
+                                                    console.log('Adding points in seller accoount');
+                                                    if(seller.subjects.length === 0) {
+                                                        res.json({
+                                                            success : false,
+                                                            message : 'Ask seller to join at least one subject to sell it.'
+                                                        });
+                                                    } else {
+
+                                                        seller.subjects[0].subject.points = seller.subjects[0].subject.points + item.points;
+
+                                                        seller.save(function (err) {
+                                                            if(err) {
+                                                                res.json({
+                                                                    success : false,
+                                                                    message : 'Database error.'
+                                                                });
+                                                            } else {
+
+                                                                console.log('saving item with updates');
+                                                                item.buyer = req.decoded.username;
+                                                                item.status = true;
+
+                                                                item.save(function (err) {
+                                                                    if(err) {
+                                                                        res.json({
+                                                                            success : false,
+                                                                            message : 'Database error.'
+                                                                        });
+                                                                    } else {
+
+                                                                        res.json({
+                                                                            success : true,
+                                                                            message : 'Yay! You successfully bought this item.'
+                                                                        });
+                                                                    }
+                                                                })
+                                                            }
+                                                        })
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         }
     });
 

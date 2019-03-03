@@ -240,6 +240,20 @@ angular.module('userCtrl', ['fileModelDirective','uploadFileService','userServic
 // posting an item with picture controller
 .controller('eshopsellCtrl', function (uploadFile, $scope,user) {
 
+    $scope.disableForm = false;
+
+    // first check it must join a class
+    user.checkClass().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            $scope.disableForm = false;
+        } else {
+            $scope.disableForm = true;
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    });
+
+
     $scope.file = {};
 
     $scope.Submit = function (itemData) {
@@ -292,12 +306,31 @@ angular.module('userCtrl', ['fileModelDirective','uploadFileService','userServic
 
     var app = this;
 
-    user.getProduct($routeParams.id).then(function (data) {
-        console.log(data);
-        if(data.data.success) {
-            app.item = data.data.item;
-        } else {
-            demo.showErrorMessage('top','center',data.data.message);
-        }
-    })
+    function updateProducts() {
+
+        user.getProduct($routeParams.id).then(function (data) {
+            //console.log(data);
+            if(data.data.success) {
+                app.item = data.data.item;
+            } else {
+                demo.showErrorMessage('top','center',data.data.message);
+            }
+        });
+    }
+
+    updateProducts();
+
+
+    app.buyNow = function (id) {
+        console.log(id);
+        user.buyNow(id).then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                demo.showSuccessMessage('top','center',data.data.message);
+                updateProducts();
+            } else {
+                demo.showErrorMessage('top','center',data.data.message);
+            }
+        })
+    }
 });

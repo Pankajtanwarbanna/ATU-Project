@@ -94,6 +94,7 @@ var app = angular.module('userRoutes', ['ngRoute'])
             .when('/addsubject', {
                 templateUrl : '/app/views/pages/user-add-subject.html',
                 authenticated : true,
+                permission : 'professor',
                 controller : 'subjectCtrl',
                 controllerAs : 'subject'
             })

@@ -146,5 +146,15 @@ angular.module('userServices',[])
         return $http.get('/api/getProduct/' + id);
     };
 
+    // buy now
+    userFactory.buyNow = function (id) {
+        return $http.post('/api/buyNow/'+ id);
+    };
+
+    // check user has joined a class or not
+    userFactory.checkClass = function () {
+        return $http.get('/api/checkClass');
+    };
+
     return userFactory;
 });
