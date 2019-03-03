@@ -227,7 +227,7 @@ angular.module('userCtrl', ['fileModelDirective','uploadFileService','userServic
     var app = this;
 
     user.getTransactions().then(function (data) {
-        //console.log(data);
+        console.log(data);
         if(data.data.success) {
             app.transactions = data.data.transactions;
             //console.log(app.transactions);

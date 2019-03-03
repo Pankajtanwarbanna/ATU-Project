@@ -103,11 +103,30 @@
                             <p class="category">Explore items of your interest and buy on single click!
                             </p>
                         </div>
+                        <div class="row">
+                            <br>
+                            <br>
+                            <br>
+                            <div class="col-lg-3">
+                                <!--Empty div-->
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Filter by Item Category</label>
+                                    <select class="form-control" ng-model="category">
+                                        <option value="car">Car</option>
+                                        <option value="bus">Bus</option>
+                                        <option value="bike">Bike</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
                         <br>
                         <br>
                         <div class="content all-icons">
                             <div class="row">
-                                <div class="font-icon-list col-lg-4" ng-repeat="item in eshopbuy.items">
+                                <div class="font-icon-list col-lg-4" ng-repeat="item in eshopbuy.items | filter : category">
                                     <!--<div class="font-icon-detail">
                                         <a href="#" style="color: black;">
                                             <i class="pe-7s-coffee"></i>

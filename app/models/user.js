@@ -111,11 +111,6 @@ var userSchema = new mongoose.Schema({
                 type : String
             }
         }
-    }],
-    transaction : [{
-        info : {
-            type : String
-        }
     }]
 });
 

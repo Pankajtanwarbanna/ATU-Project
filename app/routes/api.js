@@ -4,6 +4,7 @@
 var User = require('../models/user');
 var Subject = require('../models/subject');
 var Item = require('../models/item');
+var Transaction = require('../models/transaction');
 var jwt = require('jsonwebtoken');
 var secret = 'atu-project';
 var nodemailer = require('nodemailer');
@@ -567,7 +568,7 @@ module.exports = function (router){
                 if (err) {
                     res.json({
                         success : false,
-                        message : 'Token invalid.'
+                        message : 'Please logout and login again.'
                     })
                 }
                 else {
@@ -1465,7 +1466,7 @@ module.exports = function (router){
                                                     if(user.subjects[i].subject.code === req.body.code) {
                                                         user.subjects[i].subject.points = user.subjects[i].subject.points + Number(req.body.points);
 
-                                                        user.transaction.push({ info : req.body.points + ' Marks added in Subject ' + subject.name + 'by Prof. '+ subject.professorname });
+                                                        //user.transaction.push({ info : req.body.points + ' Marks added in Subject ' + subject.name + 'by Prof. '+ subject.professorname });
 
                                                         user.save(function (err) {
                                                             if(err) {
@@ -1488,9 +1489,14 @@ module.exports = function (router){
                                                                             message : 'Professor not found.'
                                                                         });
                                                                     } else {
-                                                                        prof.transaction.push({ info : req.body.points + ' Marks added in Subject ' + subject.name + ' to student '+ user.name + ' by you.'});
 
-                                                                        prof.save(function (err) {
+                                                                        var transaction = new Transaction();
+
+                                                                        transaction.info = req.body.points + ' Marks added in Subject ' + subject.name + ' to student '+ user.name + ' by Prof. ' + prof.name;
+
+                                                                        //prof.transaction.push({ info : req.body.points + ' Marks added in Subject ' + subject.name + ' to student '+ user.name + ' by you.'});
+
+                                                                        transaction.save(function (err) {
                                                                             if(err) {
                                                                                 res.json({
                                                                                     success : false,
@@ -1595,7 +1601,7 @@ module.exports = function (router){
                                                             user.subjects[i].subject.points = 0;
                                                         }
 
-                                                        user.transaction.push({ info : req.body.points + ' Marks deducted in Subject ' + subject.name + ' by Prof. '+ subject.professorname })
+                                                        //user.transaction.push({ info : req.body.points + ' Marks deducted in Subject ' + subject.name + ' by Prof. '+ subject.professorname })
 
                                                         user.save(function (err) {
                                                             if(err) {
@@ -1617,9 +1623,13 @@ module.exports = function (router){
                                                                             message : 'Professor not found.'
                                                                         });
                                                                     } else {
-                                                                        prof.transaction.push({ info : req.body.points + ' Marks deducted in Subject ' + subject.name + ' to student '+ user.name + ' by you.'});
 
-                                                                        prof.save(function (err) {
+                                                                        var transaction = new Transaction();
+
+                                                                        transaction.info = req.body.points + ' Marks deducted in Subject ' + subject.name + ' to student '+ user.name + ' by Prof. ' + prof.name;
+                                                                        //prof.transaction.push({ info : req.body.points + ' Marks deducted in Subject ' + subject.name + ' to student '+ user.name + ' by you.'});
+
+                                                                        transaction.save(function (err) {
                                                                             if(err) {
                                                                                 res.json({
                                                                                     success : false,
@@ -1661,7 +1671,7 @@ module.exports = function (router){
                 message : 'User is not logged in.'
             });
         } else {
-            User.findOne({ username : req.decoded.username }, function (err, user) {
+            Transaction.find({ }, function (err, transactions) {
                 if(err) {
                     res.json({
                         success : false,
@@ -1669,15 +1679,15 @@ module.exports = function (router){
                     });
                 }
 
-                if(!user) {
+                if(!transactions) {
                     res.json({
                         success : false,
-                        message : 'User not found.'
+                        message : 'Transactions not found.'
                     });
                 } else {
                     res.json({
                         success : true,
-                        transactions : user.transaction
+                        transactions : transactions
                     });
                 }
             })
@@ -1879,9 +1889,23 @@ module.exports = function (router){
                                 message : 'Database error.'
                             });
                         } else {
-                            res.json({
-                                success : true,
-                                message : 'Item posted successfully.'
+
+                            var transaction = new Transaction();
+
+                            transaction.info = req.decoded.username + ' posted an item ' + req.body.name +' for ' + req.body.points +' points just now.';
+
+                            transaction.save(function (err) {
+                                if(err) {
+                                    res.json({
+                                        success : false,
+                                        message : 'Database error.'
+                                    });
+                                } else {
+                                    res.json({
+                                        success : true,
+                                        message : 'Item posted successfully.'
+                                    });
+                                }
                             });
                         }
                     });
@@ -2089,9 +2113,22 @@ module.exports = function (router){
                                                                         });
                                                                     } else {
 
-                                                                        res.json({
-                                                                            success : true,
-                                                                            message : 'Yay! You successfully bought this item.'
+                                                                        var transaction = new Transaction();
+
+                                                                        transaction.info =  req.decoded.username + ' just bought an item '+ item.name + ' for '+ item.points + ' points.';
+
+                                                                        transaction.save(function (err) {
+                                                                            if(err) {
+                                                                                res.json({
+                                                                                    success : false,
+                                                                                    message : 'Database error.'
+                                                                                });
+                                                                            } else {
+                                                                                res.json({
+                                                                                    success : true,
+                                                                                    message : 'Yay! You successfully bought this item.'
+                                                                                });
+                                                                            }
                                                                         });
                                                                     }
                                                                 })
