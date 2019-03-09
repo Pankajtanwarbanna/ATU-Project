@@ -1,6 +1,6 @@
 # ATU Project
 **Free Lancing Project for Arkansas Tech University, USA** 
-A web application that helps a professor to manage students points and students use that points to bid products. Students share their points with other students to help him/her to bid the products.Main purpose is to give a better place where professor gives points to students according to their performance in class. And also make them motivate to study hard show that they earn points and bid the products what they want.Points given by professor motivates students.
+* A web application that helps a professor to manage students points and students use that points to bid products. Students share their points with other students to help him/her to bid the products.Main purpose is to give a better place where professor gives points to students according to their performance in class. And also make them motivate to study hard show that they earn points and bid the products what they want.Points given by professor motivates students.
 
 ## Built with :
 * Nodejs
@@ -27,7 +27,7 @@ https://docs.mongodb.com/v3.2/tutorial/install-mongodb-on-ubuntu/
 ```
 ### Run Software
 
-1. git clone https://github.com/Pankajtanwarbanna/Polymath.git
+1. git clone https://github.com/Pankajtanwarbanna/ATU-Project.git
 2. cd ATU-Project
 3. npm install
 4. nodemon server.js
