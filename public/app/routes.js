@@ -136,9 +136,21 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'useritem'
             })
 
+            .when('/bought-items' , {
+                templateUrl : '/app/views/pages/user-bought-items.html',
+                authenticated : true,
+                permission : 'student',
+                controller : 'boughtCtrl',
+                controllerAs : 'bought'
+            })
 
-
-
+            .when('/posted-items' , {
+                templateUrl : '/app/views/pages/user-posted-items.html',
+                authenticated : true,
+                permission : 'student',
+                controller : 'postedCtrl',
+                controllerAs : 'posted'
+            })
 
             /*
             .when('/register', {

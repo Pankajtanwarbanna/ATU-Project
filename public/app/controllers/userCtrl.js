@@ -244,7 +244,7 @@ angular.module('userCtrl', ['fileModelDirective','uploadFileService','userServic
 
     // first check it must join a class
     user.checkClass().then(function (data) {
-        console.log(data);
+        //console.log(data);
         if(data.data.success) {
             $scope.disableForm = false;
         } else {
@@ -252,7 +252,6 @@ angular.module('userCtrl', ['fileModelDirective','uploadFileService','userServic
             demo.showErrorMessage('top','center',data.data.message);
         }
     });
-
 
     $scope.file = {};
 
@@ -333,4 +332,32 @@ angular.module('userCtrl', ['fileModelDirective','uploadFileService','userServic
             }
         })
     }
+})
+
+.controller('postedCtrl', function (user) {
+    //console.log('testing posted controller');
+    var app = this;
+
+    user.getPosted().then(function (data) {
+        //console.log(data);
+        if(data.data.success) {
+            app.items = data.data.items;
+        } else {
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    });
+})
+
+.controller('boughtCtrl', function (user) {
+    //console.log('testing posted controller');
+    var app = this;
+
+    user.getBought().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.items = data.data.items;
+        } else {
+            demo.showErrorMessage('top','center',data.data.message);
+        }
+    });
 });

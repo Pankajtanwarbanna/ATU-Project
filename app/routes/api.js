@@ -2148,6 +2148,72 @@ module.exports = function (router){
         }
     });
 
+    // get all posted items
+    router.get('/getPosted', function (req, res) {
+
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            Item.find({ seller : req.decoded.username }, function (err, items ) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!items) {
+                    res.json({
+                        success : false,
+                        message : 'Items not found.'
+                    });
+                } else {
+                    res.json({
+                        success : true,
+                        items : items
+                    })
+                }
+            });
+        }
+
+    });
+
+    // get all bought items
+    router.get('/getBought', function (req, res) {
+
+        if(!req.decoded.username) {
+            res.json({
+                success : false,
+                message : 'User is not logged in.'
+            });
+        } else {
+            Item.find({ buyer : req.decoded.username }, function (err, items ) {
+                if(err) {
+                    res.json({
+                        success : false,
+                        message : 'Database error.'
+                    });
+                }
+
+                if(!items) {
+                    res.json({
+                        success : false,
+                        message : 'Items not found.'
+                    });
+                } else {
+                    res.json({
+                        success : true,
+                        items : items
+                    })
+                }
+            });
+        }
+
+    });
+
     return router;
 };
 

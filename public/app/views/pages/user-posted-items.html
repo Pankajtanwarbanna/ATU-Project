@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">ATU Project E-Shop</a>
+                <a class="navbar-brand" href="#">ATU Project E-Shop Posted Items</a>
             </div>
             <div class="collapse navbar-collapse">
 
@@ -99,47 +99,49 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header text-center">
-                            <h4 class="title">Hey there! Welcome to E-Shop</h4>
-                            <p class="category">Select the path where you want to go </p>
+                            <h4 class="title">Your Posted Items</h4>
+                            <p class="category">You can find all of your posted items here!
+                            </p>
                         </div>
+                        <br>
+                        <br>
                         <div class="content all-icons">
                             <div class="row">
-                                <div class="font-icon-list col-lg-6">
-                                    <div class="font-icon-detail">
-                                        <a href="/buy-items" style="color: black;">
-                                            <i class="pe-7s-cash"></i>
-                                            <input type="text" value="Buy Items">
+                                <div class="font-icon-list col-lg-4" ng-repeat="item in posted.items | filter : category">
+                                    <!--<div class="font-icon-detail">
+                                        <a href="#" style="color: black;">
+                                            <i class="pe-7s-coffee"></i>
+                                            <input type="text" value="Page Under Construction!">
                                         </a>
-                                    </div>
-                                </div>
-                                <div class="font-icon-list col-lg-6">
-                                    <div class="font-icon-detail">
-                                        <a href="/sell-items" style="color: black;">
-                                            <i class="pe-7s-piggy"></i>
-                                            <input type="text" value="Sell Items">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                                    </div>-->
+                                    <div class="box card card-user">
+                                        <div class="image" style="height: 230px;">
+                                            <img style="height: 300px;width: 100%;" src="/uploads/{{ item.image }}.jpg" alt=""/>
+                                        </div>
+                                        <div class="content" style="min-height: 130px;">
+                                            <div class="author" style="text-align: left;margin-top: 0px;">
+                                                <a href="/item/{{ item._id }}">
 
+                                                    <h4 class="title">{{ item.name }}<br />
+                                                        <small>{{ item.category }}</small>
+                                                    </h4>
+                                                    <br>
+                                                </a>
+                                            </div>
+                                            <hr>
+                                            <div class="row" style="margin-top: 15px;">
+                                                <div class="col-lg-5">
+                                                    <i style="font-size: medium;" class="pe-7s-medal"> </i> &nbsp;{{ item.points }}
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <i style="font-size: medium;" class="pe-7s-pen"></i>  &nbsp;{{ item.seller }}
+                                                </div>
+                                            </div>
 
-                            <div class="row">
-                                <div class="font-icon-list col-lg-6">
-                                    <div class="font-icon-detail">
-                                        <a href="/bought-items" style="color: black;">
-                                            <i class="pe-7s-cart"></i>
-                                            <input type="text" value="Your Bought Items">
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="font-icon-list col-lg-6">
-                                    <div class="font-icon-detail">
-                                        <a href="/posted-items" style="color: black;">
-                                            <i class="pe-7s-cloud-upload"></i>
-                                            <input type="text" value="Your Posted Items">
-                                        </a>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
